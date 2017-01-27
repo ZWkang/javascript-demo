@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>index</title>
+	<script>
+	window.onload=function(){
+		(function(){
+			Array.prototype.remove = function(val) {
+				var a = [];
+				this.forEach(function(value,index){
+					if(value==val){
+						return;
+					}else{
+					a.push(value);}
+				})
+				return a;
+			};
+			window.Main=Main ={
+				cache : [],
+				d:null,
+				w:null,
+				init:function(){
+					this.d=document;
+					this.w = window;
+					Array.prototype.forEach.call(document.getElementsByTagName('img'),function(value,index){
+						Main.cache.push(value);//需要转换的img标签对象压入数组
+					});
+				},
+				changesrc:function(){
+
+					this.dataset.src?this.src=this.dataset.src:this.setAttribute('src',this.getAttribute('data-src'));
+				},
+				getPositionLeft:function(ele){
+					var actLeft = ele.offsetLeft;
+					var currentLeft = ele.offsetParent;
+					while(currentLeft!==null){
+						actLeft+=currentLeft.offsetLeft;
+						currentLeft = currentLeft.offsetParent;
+					}
+					return actLeft;
+				},
+				getPositionTop:function(ele){
+					var actTop = ele.offsetTop;
+					var currentTop = ele.offsetParent;
+					while(currentTop!==null){
+						actTop +=currentTop.offsetTop;
+						currentTop = currentTop.offsetParent;
+					}
+					return actTop;
+				},
+				getReleativeTop:function(ele){
+					var scrollT = this.w.pageYoffset || this.d.documentElement.scrollTop||this.d.body.scrollTop;
+					return this.getPositionTop(ele)-scrollT;//绝对距离减去滑动条距离
+				},
+				getReleativeLeft:function (ele){
+					var scrollL = this.w.pageXoffset || this.d.documentElement.scrollLeft||this.d.body.scrollLeft;
+					return this.getPositionLeft(ele)-scrollL;//绝对距离减去滑动条距离
+				},
+				cuca:function(){
+					if(this.cache.length<=0){return;}
+					var lookH = this.w.innerHeight||this.d.documentElement.clientHeight||document.body.clientHeight;
+					var lookW = this.w.innerWidth||this.d.documentElement.clientWidth||this.d.body.clientWidth;
+					//滚动条距离
+					var scrollT = this.w.pageYoffset || this.d.documentElement.scrollTop||this.d.body.scrollTop;
+
+					for(var i = 0;i<this.cache.length;i++){
+						var value = this.cache[i];
+						var Left = this.getReleativeLeft(value);
+						var Top = this.getReleativeTop(value);
+						
+						if(Left>0&&Top>0&&Left<lookW&&Top<lookH){
+							this.changesrc.call(value);
+							// console.log(this);
+							this.cache = this.cache.remove(value);
+						}
+					}
+				}
+			}
+			
+		})();
+		window.Main.init()
+		window.onresize=window.onscroll=function(){
+			window.Main.cuca();
+		}
+	}
+
+
+	</script>
+	<style>
+		body{
+			width: 3000px;
+		}
+		img{
+			width:300px;
+			height: 200px;
+			margin-top: 100px;
+			margin-left: 100px;
+		}
+	</style>
+</head>
+<body>
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_1.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_2.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_3.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_4.png" alt="">
+	<div>
+		<div>
+			<div>
+				<div>
+					<div id="main"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_5.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_6.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_7.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_8.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_9.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_10.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_11.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_12.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_13.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_14.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_15.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_16.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_17.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_19.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_20.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_21.png" alt="">
+</body>
+</html>

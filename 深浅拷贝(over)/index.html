@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>index</title>
+</head>
+<body>
+	<script>
+
+	if(typeof Object.prototype.qiancopy =='undefined'){
+		Object.prototype.qiancopy=function(obj){
+			var dist={};
+			for(var prop in obj){
+				if(obj.hasOwnProperty(prop)){
+					dist[prop]=obj[prop];
+				}
+			}
+			return dist;
+		}
+	}
+	//浅拷贝
+	// if(typeof Object.prototype.shencopy=='undefined'){
+	// 	Object.prototype.shencopy=function(obj){
+						
+	// 	}
+	// }
+	if(typeof Object.prototype.shencopy=='undefined'){
+		if(typeof JSON.parse !='undefined'&& typeof JSON.stringify !='undefined'){
+			return JSON.parse(JSON.stringify(obj));
+		}else{
+		Object.prototype.shencopy=function(p, c) {
+	　　　　var c = c || {};
+	　　　　for (var i in p) {
+	　　　　　　if (typeof p[i] === 'object') {
+	　　　　　　　　c[i] = (p[i].constructor === Array) ? [] : {};
+	　　　　　　　　shencopy(p[i], c[i]);
+	　　　　　　} else {
+	　　　　　　　　　c[i] = p[i];
+	　　　　　　}
+	　　　　}
+	　　　　return c;
+	　　  }
+		}
+	}
+	//深拷贝
+	</script>
+</body>
+</html>

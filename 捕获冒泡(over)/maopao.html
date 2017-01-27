@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.main{
+			height: 400px;
+			width: 300px;
+
+		}
+	</style>
+	
+</head>
+<body>
+	<div class="main">
+		<p>hahaha</p>
+	</div>
+	<script>
+		var p = document.getElementsByTagName('p')[0];
+		var d = document.getElementsByTagName('div')[0];
+		// d.onclick=function(e){
+		// 	var a = e||window.event;
+		// 	console.log(a);
+		// }
+		p.onclick=function(){
+			// event.stopPropagation()
+			alert('p clicked');
+		}
+		// addEventListener 第三个参数代表捕获或者冒泡  false 冒泡 true捕获
+		// p.addEventListener('click',function(){
+		// 	alert('p clicked');
+		// },false)
+		d.addEventListener('click',function(){
+			alert('div clicked');
+		},false)
+	</script>
+</body>
+</html>

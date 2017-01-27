@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+	function zellerweek(year,month,day){
+		var m = month;
+		var d = day;
+		if(month<=2){
+			year--;
+			m=month+12;
+		}
+		var y = year%100;
+		var c = parseInt(year/100);
+		w = (y + y/4 + c/4 - 2 * c + (13 * (m + 1) / 5) + d - 1) % 7;
+		if(w<0){
+			w+=7;
+		}
+		return w;
+	}
+	alert(zellerweek(2017,1,2))
+	</script>
+</body>
+</html>

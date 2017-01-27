@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>index</title>
+
+	<style>
+	#dioag{
+		visibility: visible;
+		position: absolute;
+		left: 0px;
+		top: 0px;
+		height: 100%;
+		width: 100%;
+		text-align: center;
+		z-index: 1000;
+		background-color: #333;
+		opacity: 1;
+
+	}
+	.modal-data{
+		width: 300px;
+		margin: 100px auto;
+		background-color: #fff;
+		padding: 15px;
+		text-align: center;
+	}
+	</style>
+</head>
+<body>
+<div id="dioag">
+	<div class="modal-data">
+		<h4>enter your name</h4>
+		<input type="text" value="" id="username"><input type="submit" id="enter">
+	</div>
+</div>
+<script>
+	(function(){
+
+		var target=document.getElementById('enter');
+		window._targets=target;
+		var dioag=document.getElementById('dioag');
+		function state(obj){
+			return window.getComputedStyle ? window.getComputedStyle(obj,null).visibility : obj.currentStyle.visibility;
+		}
+		// var DioagState = state(dioag);
+		target.addEventListener('click',function(){
+			if(state(dioag)=='visible'){
+				dioag.style.visibility='hidden';
+			}else{
+				dioag.style.visibility='visible';
+			}
+		})
+
+
+	})();
+
+
+</script>
+</body>
+</html>

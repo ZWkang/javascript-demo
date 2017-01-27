@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>index</title>
+	<style>
+		span{
+			border:1px solid red;
+		}
+	</style>
+</head>
+<body>
+	<div class="main">
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<br/>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<br/>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<br/>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<br/>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<br/>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+		<span>1</span>
+	</div>
+
+
+	<script>
+	function yearType(year){
+		if(year%4==0&&year%100!=0||year%400==0){return true;}
+		return false;
+	}
+	function dayofMonth(year,month){
+		var montharr=[31,[28,29],31,30,31,30,31,31,30,31,30,31];
+		var type = yearType(year);
+		if(month==2&&type){
+			return montharr[1][1];
+		}else if (month==2){
+			return montharr[1][0];
+		}
+		return montharr[month-1];
+	}
+	function CalcYearPassedDays(year,month,day){
+		var days = 0;
+
+		for(var i=0;i<month-1;i++){
+			days+=dayofMonth(year,i+1);
+		}
+		return days+day;
+	}
+	function CalcYearRestDays(year,month,day){
+		var Maxmonth = 12;
+		var days = 0;
+		for(var i =month;i<Maxmonth;i++){
+			days+=dayofMonth(year,i+1);
+		}
+		return days+dayofMonth(year,month)-day;
+	}
+	function CalcYearsDays(year,years){
+		var days = 0;
+		for(var i=year+1;i<years;i++){
+			if(yearType(i)){
+				days+=366;
+			}else{
+				days+=365;
+			}
+		}
+		return days;
+	}
+
+	</script>
+</body>
+</html>

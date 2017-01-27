@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	#main{
+		position: relative;
+		overflow: hidden;
+		width: 300px;
+		height: 500px;
+		float: left;
+	}
+	#main > img{
+		width: 300px;
+		height: 500px;
+		float: left;
+
+	}
+	
+	#main > .mark{
+		position: absolute;
+		width: 50px;
+		height: 50px;
+		left: 0px;
+		top: 0px;
+		z-index: 10000;
+		background-color: red;
+	         filter: alpha(opacity=0.5);
+	         opacity: 0.5;
+	}
+	div[class=bigshow]{
+		float: left;
+		display: none;
+		background: url('big.jpg')  no-repeat;
+		width: 500px;
+		height: 500px;
+		background-position: 0% 0%;
+	}
+
+
+	</style>
+</head>
+<body>
+	<div id="main">
+		<img src="big.jpg" alt="">	
+		<div class="mark">
+			
+		</div>
+	</div>
+	<div class="bigshow">
+	</div>
+	<script>
+
+		(function(){
+			var kuai = document.getElementById('main'),
+				mark = document.getElementsByClassName('mark')[0],
+				bigshow = document.getElementsByClassName('bigshow')[0];
+			function getPositionLeft(ele){
+						var actLeft = ele.offsetLeft;
+						var currentLeft = ele.offsetParent;
+						while(currentLeft!==null){
+							actLeft+=currentLeft.offsetLeft;
+							currentLeft = currentLeft.offsetParent;
+						}
+						return actLeft;
+					}
+			function getPositionTop(ele){
+						var actTop = ele.offsetTop;
+						var currentTop = ele.offsetParent;
+						while(currentTop!==null){
+							actTop +=currentTop.offsetTop;
+							currentTop = currentTop.offsetParent;
+						}
+						return actTop;
+			}
+			kuai.addEventListener('mousemove',function(event){
+				bigshow.style.display='block';
+				var pl = getPositionLeft(kuai);
+				var pt = getPositionTop(kuai);
+				var MaxPointX = 300-25;
+				var MaxPointY = 500-25;
+
+				var pointX = event.clientX-pl;
+				var pointY = event.clientY-pt;
+				// console.log(pointX,MaxPointX,pointY,MaxPointY);
+				if(pointX<25){
+					var blockX = 0;
+				}else if(pointX>MaxPointX){
+					var blockX = MaxPointX-25;
+				}else{
+					var blockX = pointX-25;
+				}
+				if(pointY<25){
+					var blockY = 0;
+				}else if(pointY>MaxPointY){
+					console.log('big more');
+					var blockY = MaxPointY-25;
+				}else{
+					var blockY = pointY-25;
+				}
+				var kw = kuai.offsetWidth;
+				var kh = kuai.offsetHeight;
+
+
+
+				bigshow.style.backgroundPosition = (pointX/kw).toFixed(2)*100+'% '+(pointY/kh).toFixed(2)*100+'%';
+
+				mark.style.left=blockX+'px';
+				mark.style.top=blockY+'px';
+			});
+			kuai.addEventListener('mouseout',function(){
+				bigshow.style.display='none';
+			})
+
+		})();
+
+	</script>
+</body>
+</html>

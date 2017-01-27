@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>index</title>
+	<style>
+	#paint{
+		border: 3px dashed #ccc;
+	}
+
+	</style>
+</head>
+<body>
+	<canvas id="paint" width="500" height="500"></canvas>
+	<script>
+		var canvas = document.getElementById('paint'),
+			paints = canvas.getContext("2d");
+			paints.lineWidth=5;
+			paints.strokeStyle="red";
+		var _paint = 0;
+		canvas.addEventListener('touchstart',function(e){
+			var mouseX = e.pageX - this.offsetLeft;
+			var mouseY = e.pageY - this.offsetTop;
+
+			_paint = 1;
+			paints.moveTo(mouseX,mouseY);
+		})
+		canvas.addEventListener('touchend',function(e){
+			_paint=0;
+		});
+		canvas.addEventListener('touchmove',function(e){
+			e.preventDefault();
+			var mouseX = e.pageX - this.offsetLeft;
+			var mouseY = e.pageY - this.offsetTop;
+			if(_paint){
+				paints.lineTo(mouseX,mouseY);
+				paints.stroke();
+			}
+		})
+
+	</script>
+</body>
+</html>

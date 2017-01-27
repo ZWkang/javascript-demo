@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+	function IsGregorianDays(year,month,day){
+		if(year>=1582&&month>=10&&day>=15){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	function  CalculateJulianDay(year,month,day){
+		var days = 0;
+		if(month<=2){
+			month+=12;year-=1;
+		}
+
+		if(IsGregorianDays(year,month,day)){
+			days = year/100;
+			days = 2-days+year/400;
+		}
+		var dd = day+0.5000115740;
+		return (365.25*(year+4716)+0.01)+(30.60001 * (month + 1))+dd+days-1524.5;
+	}
+	alert((CalculateJulianDay(2005,5,31)-CalculateJulianDay(1977,3,27)).toFixed(0));
+	</script>
+</body>
+</html>
