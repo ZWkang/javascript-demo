@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>indexPage</title>
+		 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+		<link rel="stylesheet" href="css/jquery.mobile-1.4.2.min.css" />
+		<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>		
+<style>
+			body{
+				background-color: #58a;
+			}
+			.ui-header-fixed, .ui-footer-fixed{
+				/*height: 6vh;*/
+				
+			}
+			.ui-content{
+				background: #58a;
+				/*overflow: hidden;*/
+			}
+			
+			#index > .ui-content{
+				/*overflow: hidden;*/
+				/*overflow: hidden;*/
+				/*height: 100%;
+				width: 100%;*/
+			}
+			#MainNavbar{
+				/*overflow: hidden;*/
+			}
+			#list >	.ui-content{
+				background: #58a;
+				/*height: 8vh;*/
+			}
+			.ui-content{
+				padding: 0px;
+			}
+			#list .ui-listview .ui-li-has-thumb>.ui-btn>img:first-child{
+				max-height: none!important;
+			}
+			#list > .ui-content > #listshow > li {
+				padding: 0px 2px;
+			}
+			listmain{
+				
+				display: block;
+				width: 90%;
+				/*height: 88vh;*/
+				/*overflow: hidden;*/
+				margin:2% auto 0 auto;
+			}
+			listmain > div > ul{
+				margin-top: 2vh!important;
+			}
+			listmain > div > .ui-grid-solo{
+				margin-bottom: 1vh!important;
+			}
+			
+			.buttons{
+				transform: skewX(-45deg);
+				border:1px solid #ccc;!important
+			}
+			.buttons > div{
+				transform: skewX(45deg);
+			}
+			#bookinfo{
+				background-color: #5588AA;
+			}
+			.spinner {
+			  width: 60px;
+			  height: 60px;
+			  background-color: #67CF22;
+			  margin:100px auto 100px auto;
+			  -webkit-animation: rotateplane 1.2s infinite ease-in-out;
+			  animation: rotateplane 1.2s infinite ease-in-out;
+
+			}
+			 
+			@-webkit-keyframes rotateplane {
+			  0% { -webkit-transform: perspective(120px) }
+			  50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+			  100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
+			}
+			 
+			@keyframes rotateplane {
+			  0% {
+			    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+			    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+			  } 50% {
+			    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+			    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+			  } 100% {
+			    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+			    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+			  }
+			}
+			.loading {
+				display: none;
+			  width: 40px;
+			  height: 40px;
+			  /*margin: 100px auto;*/
+			  position: fixed;
+			  bottom: 5vh;
+			  background-color: greenyellow;
+			  left: 45vw;
+			  
+			  border-radius: 100%; 
+			  -webkit-animation: scaleout 1.0s infinite ease-in-out;
+			  animation: scaleout 1.0s infinite ease-in-out;
+			}
+			 
+			@-webkit-keyframes scaleout {
+			  0% { -webkit-transform: scale(0.0) }
+			  100% {
+			    -webkit-transform: scale(1.0);
+			    opacity: 0;
+			  }
+			}
+			 
+			@keyframes scaleout {
+			  0% {
+			    transform: scale(0.0);
+			    -webkit-transform: scale(0.0);
+			  } 100% {
+			    transform: scale(1.0);
+			    -webkit-transform: scale(1.0);
+			    opacity: 0;
+			  }
+			}
+			#indexheader{
+				
+			}
+		</style>
+<script>
+var action=(function($){
+	var indexaction=function(){
+		if(typeof localStorage == "undefined"){return;}
+		var arraylist = ['J.K.罗琳','UCD','UE','web','小说','幾米','阿加莎·克里斯蒂','爱情','安妮宝贝','编程','蔡康永','沧月','策划','成长','程序','穿越','传记','创业','茨威格','村上春树','耽美','当代文学','电影','东野圭吾','杜拉斯','儿童文学','二战','佛教','港台','高木直子','古典文学','古龙','股票','管理','广告','郭敬明','国学','韩寒','互联网','回忆录','绘本','绘画','几米','家居','健康','建筑','交互','交互设计','教育','金融','金庸','近代史','经典','经济','经济学','军事','考古','科幻','科幻小说','科技','科普','科学','理财','励志','历史','两性','灵修','鲁迅','旅行','落落','漫画','美国','美食','美术','米兰·昆德拉','名著','魔幻','女性','奇幻','企业史','钱钟书','青春','青春文学','轻小说','情感','人际关系','人文','人物传记','日本漫画','日本文学','三毛','散文','商业','摄影','社会','社会学','设计','神经网络','生活','诗词','诗歌','手工','数学','思想','算法','随笔','通信','投资','推理','推理小说','外国名著','外国文学文学','王小波','网络小说','文化','文学','武侠','西方哲学','戏剧','心理','心理学','悬疑','言情','养生','艺术','艺术史','亦舒','音乐','营销','用户体验','游记','余华','杂文','张爱玲','张小娴','张悦然','哲学','政治','政治学','职场','中国','中国历史','中国文学','自由主义','自助游','宗教'];
+//		$.mobile.page.prototype.options.domCache = false; 
+		var readyadd = '';
+		arraylist.forEach(function(value,index){
+			if(index%5==0){
+				readyadd=readyadd+'<ul><li><a href="#list?name='+value+'" data-transition="none" class="buttons first" data-role="button" data-inline="true"><div>'+value+'</div></a></li>';
+			}else if(index%5==4){
+				readyadd=readyadd+'<li><a href="#list?name='+value+'" data-transition="none" class="buttons first" data-role="button" data-inline="true"><div>'+value+'</div></a></li></ul>';
+			}else{
+				readyadd=readyadd+'<li><a href="#list?name='+value+'" data-transition="none" class="buttons first" data-role="button" data-inline="true"><div>'+value+'</div></a></li>';
+			}
+		})
+		$("#MainNavbar").html(readyadd);
+	};
+	var bookinfoaction=function(e,data){
+		if ( typeof data.toPage != "string" ) {
+			$('#bookinfoheader > h1').eq(0).text('loading...');
+			$('#bookinfomain').html('');
+			$('#bookinfo .spinner').show();
+			var url = $.mobile.path.parseUrl(e.target.baseURI);
+			if(url.hash.split('?id=').length<=1){return;}
+			// $('#bookinfo .spinner').show();
+			$.ajax(
+				{type:'GET',
+				url:'https://ls-l.cn/webuiwork.php?type=one&key='+url.hash.split('?id=')[1],
+				success:function(data){
+
+					$('#bookinfo .spinner').hide();
+					//$('#bookinfomain').html('');
+//					$('#listheader > h1').eq(0).text();
+					var data = JSON.parse(data);
+					// console.log(data);
+					$('#bookinfoheader > h1').eq(0).text(data[0]['book_name']);
+					var author = data[0]['book_info']?'':data[0]['book_info'].split('-作者:').length>0?data[0]['book_info'].split('-作者:')[1].split('-')[0]:'';
+					var chubanshe = data[0]['book_info']?'':data[0]['book_info'].split('-出版社:').length>1?data[0]['book_info'].split('-出版社:')[1].split('-')[0]:'';
+//								'<h4>Author：<b>'+data[0]'</b></h4>'
+					var value='<div class="ui-grid-a">'+
+							'<div class="ui-block-a"><img src="'+data[0]['book_image']+'" alt="" /></div>'+
+							'<div class="ui-block-b">'+
+								'<h5><b title=\''+data[0]['book_name']+'\'>'+data[0]['book_name']+'</b></h5>'+
+								'<h5>Author：<b>'+author+'</b></h5>'+
+								'<h5>出版社：<b>'+chubanshe+'</b></h5>'+
+								'<h5>评分<b>'+data[0]['rate_num']+'</b></h5>'+
+								'<h5>评分人数：<b>'+data[0]['rate_people']+'人</b></h5>'+
+							'</div>'+
+						'</div>'+
+						'<div class="ContentMain">'+
+							'<h3>简介：</h3>'+
+							'<p>'+data[0]['book_content']+'</p>'+	
+						'</div>';
+					$('#bookinfomain').html(value);
+					//重载列表
+				}
+				}
+			)
+	
+		}
+		
+	};
+	var listaction=function(e,data){
+		if ( typeof data.toPage != "string" ) {
+			var url = $.mobile.path.parseUrl(e.target.baseURI);
+			$('#list .spinner').show();
+			$('#listheader > h1').eq(0).text('loading.....');
+			$('#listshow').html('  ');
+			if(typeof url.hash.split('?name=')[1]=='undefined'){return;};
+			if(localStorage.hasOwnProperty(url.hash.split('?name=')[1])){//查看是否有缓存存在
+				$('.spinner').hide();
+				$('#listheader > h1').eq(0).text(url.hash.split('?name=')[1]);
+				$('#listshow').html(localStorage.getItem(url.hash.split('?name=')[1]));
+				$('#listshow').listview("refresh");
+				$('#listshow').find("li:first").addClass("ui-corner-top");
+				$('#listshow').find("li:last").addClass("ui-corner-bottom");
+				return;
+			}
+			
+			$.ajax(
+				{type:'GET',
+				url:'https://ls-l.cn/webuiwork.php?type=list&key='+url.hash.split('?name=')[1],
+				success:function(data){
+					$('.spinner').hide();
+					$('#listheader > h1').eq(0).text(url.hash.split('?name=')[1]);
+					var data = JSON.parse(data);
+					var listshow = '';
+					for(i in data){
+						if(i!='state'){
+							var author=data[i]['book_info'].split('-').length>0?data[i]['book_info'].split('-')[1]:'作者：空';
+							var dataadd = 
+						      '<li><a href="#bookinfo?id='+data[i]['book_id']+'"><img src="'+data[i]['book_image'].replace('lpic','mpic')+'" alt="'+data[i]['book_name']+'">'+
+							      	'<h4>'+data[i]['book_name']+'</h4>'+
+							      	'<p>tag:'+data[i]['book_tags']+'</p>'+
+							      	'<p>'+author+'</p>'+
+							      	'<span class="ui-li-count">'+data[i]['rate_num']+'</span>'+
+						      	'</a>'+
+						      '</li>\n';
+							listshow=listshow+dataadd;
+					}
+					localStorage.setItem(url.hash.split('?name=')[1],listshow);
+					$('#listshow').html(listshow);
+					$('#listshow').listview("refresh");
+					$('#listshow').find("li:first").addClass("ui-corner-top");
+					$('#listshow').find("li:last").addClass("ui-corner-bottom");
+					//重载列表
+					}
+				}}
+			)
+	
+		}
+	};
+	var tuijianaction = function(){
+		$('#tuijian > .ui-content >.spinner').show();
+		$('#tuijianshow').html(' ');
+		
+		$.ajax(
+			{type:'GET',
+			url:'https://ls-l.cn/webuiwork.php?type=tuijian',
+			success:function(data){
+				$('#tuijian > .ui-content >.spinner').hide();
+//				$('#listheader > h1').eq(0).text(url.hash.split('?name=')[1]);
+				var data = JSON.parse(data);
+				var listshow = '';
+				for(i in data){
+					if(i!='state'){
+						var author=data[i]['book_info'].split('-').length>0?data[i]['book_info'].split('-')[1]:'作者：空';
+						var dataadd = 
+					      '<li><a href="#bookinfo?id='+data[i]['book_id']+'"><img src="'+data[i]['book_image'].replace('lpic','mpic')+'" alt="'+data[i]['book_name']+'">'+
+						      	'<h4>'+data[i]['book_name']+'</h4>'+
+						      	'<p>tag:'+data[i]['book_tags']+'</p>'+
+						      	'<p>'+author+'</p>'+
+						      	'<span class="ui-li-count">'+data[i]['rate_num']+'</span>'+
+					      	'</a>'+
+					      '</li>\n';
+						listshow=listshow+dataadd;
+				}
+//				localStorage.setItem(url.hash.split('?name=')[1],listshow);
+				$('#tuijianshow').html(listshow);
+				$('#tuijianshow').listview("refresh");
+				$('#tuijianshow').find("li:first").addClass("ui-corner-top");
+				$('#tuijianshow').find("li:last").addClass("ui-corner-bottom");
+				//重载列表
+				}
+			}}
+		)
+	};
+	return {
+		list:listaction,
+		bookinfo:bookinfoaction,
+		index:indexaction,
+		tuijian:tuijianaction
+	}
+})(jQuery)
+$(document).ready(function(){
+	action.index();
+})
+
+$(document).on('pageinit','#list',function(){
+	$(document).bind( "pagebeforechange", action.list);
+});
+$(document).on('pageinit','#tuijian',function(){
+	$(document).bind( "pagebeforechange", action.tuijian);
+});
+$(document).on('pageinit','#bookinfo',function(){
+	$(document).bind( "pagebeforechange", action.bookinfo);
+});
+
+</script>
+		<script type="text/javascript" src="js/jquery.mobile-1.4.2.min.js"></script>
+	</head>
+	<body>
+	<div data-role="page" id="index" data-theme="a">
+		<div data-role="header" id="indexheader" data-position="fixed" data-tap-toggle="false">
+				<h1>index page</h1>
+				
+		</div>
+		
+		
+		<div role="main" class="ui-content">
+			<listmain>
+			  <div data-role="navbar" id="MainNavbar">
+
+			  </div>
+			</listmain>
+
+		</div>
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+		    <div data-role="navbar" data-iconpos="left">
+		      <ul>
+		        <li><a href="#index" data-icon="home" data-ajax="false">主页</a></li>
+		        <li><a href="#tuijian" data-icon="grid" >推荐</a></li>
+		        <li><a href="#musicplayer" data-icon="star">音乐</a></li>
+		      </ul>
+		    </div>			
+		</div>
+	</div>
+	<style>
+		#list{
+			background-color:#5588AA;
+		}
+		
+	</style>
+	<div data-role="page" id="list">
+		<div data-role="header" data-position="fixed" data-tap-toggle="false" id="listheader"data-transition="slide">
+				<a href="#index" data-icon="home">Home</a>
+				<h1>loading....</h1>
+		</div>
+		<div role="main" class="ui-content">
+			<div class="spinner"></div>
+		
+		    <ul data-role="listview" data-inset="true" id="listshow"></ul>
+		    <!--<div class="loading"></div>-->
+		
+		</div>
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+		    <div data-role="navbar" data-iconpos="left">
+		      <ul>
+		        <li><a href="#index" data-icon="home"  data-ajax="false">主页</a></li>
+		        <li><a href="#tuijian" data-icon="grid">推荐</a></li>
+		        <li><a href="#musicplayer" data-icon="star">音乐</a></li>
+		      </ul>
+		    </div>			
+		</div>
+	</div>
+	<style>
+		#tuijian{
+			background-color: #5588AA;
+		}
+		#tuijian > .ui-content{
+				/*background: #58a;*/
+				/*height: 88vh;*/
+				padding:0 5px;
+				
+		}
+		#tuijian > .ui-content > .ui-listview{
+			margin-bottom: 1vh!important;
+		}
+		#tuijian .ui-listview .ui-li-has-thumb>.ui-btn>img:first-child{
+				max-height: none!important;
+		}	
+	</style>
+	<div data-role="page" id="tuijian">
+		<div data-role="header" data-position="fixed" data-tap-toggle="false" id="tuijianheader"data-transition="slide">	
+				<h1>推荐书目</h1>
+		</div>
+		<div role="main" class="ui-content">
+			<div class="spinner"></div>
+		
+		    <ul data-role="listview" data-inset="true" id="tuijianshow"></ul>
+		    <!--<div class="loading"></div>-->
+		
+		</div>
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+		    <div data-role="navbar" data-iconpos="left">
+		      <ul>
+		        <li><a href="#index" data-icon="home"  data-ajax="false">主页</a></li>
+		        <li><a href="#tuijian" data-icon="grid" >推荐</a></li>
+		        <li><a href="#musicplayer" data-icon="star">音乐</a></li>
+		      </ul>
+		    </div>			
+		</div>
+	</div>
+	<style>
+		#bookinfo{
+			background-color: #58a;
+		}
+		#bookinfo > .ui-content{
+			/*width: 100vw;*/
+			/*height: 80vh;*/
+			/*overflow: hidden;*/
+		}
+		#bookinfo > .ui-content > #bookinfomain > .ui-grid-a > .ui-block-a{
+			/*border: 1px solid red;*/
+			height: 40%;
+			width: 50% ;
+			padding: 10px 10px;
+			/*border-radius: 20%;*/
+			overflow: hidden;
+			position: relative;
+		}
+		#bookinfo > .ui-content > #bookinfomain > .ui-grid-a > .ui-block-a >img{
+			width: 100%;
+			height: 100%;
+		}
+		#bookinfo > .ui-content > #bookinfomain > .ui-grid-a > .ui-block-a:before{
+			content: '';
+			width: 2em;
+			height: 2em;
+			background-color: #58a;
+			position:absolute;
+			top: 15px;
+			left: 15px;
+			border-radius: 50%;
+			/*box-shadow: 2px 3px 2px #111111;*/
+		}
+		#bookinfo > .ui-content > #bookinfomain > .ui-grid-a > .ui-block-b{
+			/*line-height: 0.5;*/
+			text-shadow:none!important;
+			padding: 0em 0.5em 0 0.5em;
+			
+		}
+		#bookinfo > .ui-content > #bookinfomain > .ContentMain{
+			padding: 1em;
+			width: 88vw;
+			height:80vh;
+			/*border: 1px solid red;*/
+			margin-top: 5px;
+		}
+		#bookinfo > .ui-content > #bookinfomain > .ContentMain >p{
+			text-indent: 2em;
+			word-break: break-all;
+		}
+		#bookinfo > .ui-content > #bookinfomain > .ContentMain{
+			max-height: 30em;
+			text-shadow:none!important;
+		}
+		#bookinfo h2,#bookinfo h4,#bookinfo h5{
+			
+		}
+
+		#bookinfo  h4,#bookinfo  h2,#bookinfo  h5 {
+			/*display: block;*/
+			white-space:nowrap; 
+			
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		#bookinfo .spinner:after{
+			height: 20vh;
+		}
+	</style>
+	<div data-role="page" id="bookinfo">
+		<div data-role="header" data-position="fixed" data-tap-toggle="false" data-add-btn="back" id="bookinfoheader"data-transition="slide">
+				<a href="#index" data-icon="home" >Home</a>
+				<h1>bookname</h1>
+		</div>
+		<div role="main" class="ui-content">
+			<div class="spinner"></div>
+			
+			
+		  	<div id="bookinfomain"></div>
+
+		</div>
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+		    <div data-role="navbar" data-iconpos="left">
+		      <ul>
+		        <li><a href="#index" data-icon="plus">主页</a></li>
+		        <li><a href="#tuijian" data-icon="grid" >推荐</a></li>
+		        <li><a href="#musicplayer" data-icon="star">音乐</a></li>
+		      </ul>
+		    </div>			
+		</div>
+	</div>
+<style>
+		#musicplayer > .ui-content{
+			padding: 0;
+		}
+		.maintest,.container:before{
+			background: url("image/test.jpg") 0 / cover  fixed;
+			height: 89vh;
+		}
+		.container:before{
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			filter:blur(20px);
+			z-index: -100;
+		}
+
+		.container{
+			z-index: 1000;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			position: relative;
+			background:hsla(0,0%,100%,0.1);
+		}
+		.container > img{
+			margin:10px auto;
+			display: block;
+			width: 60vw;
+			height: 35vh;
+		}
+
+		.range,.volume{
+			position: relative;
+			width: 70vw;
+			height: 10vh;
+			margin: 0 auto;
+		}
+		.message{
+			text-align: center;
+			height: 13vh;
+		}
+		.message > h2{
+			margin-top: 0;
+		}
+
+		.control{
+			height: 10vh;
+			display: flex;
+
+		}
+		.control > div[class$='song']{
+			flex:1;
+			text-align: center;
+			
+		}
+		.control > div[class$='song']{
+			display: block;
+			width: 80%;
+			height: 80%;
+			cursor: pointer;
+			margin: 0 auto;
+			/*filter:sepia() saturate(1) hue-rotate(200deg);*/
+		}
+		#musicplayer .ui-content{
+
+		}
+		.control > .prev-song > span{
+			filter:none;
+			background: url('icon/prev.png') no-repeat  center center;background-size: 50%;
+		}
+		.control > .stop-song {
+			z-index: 1000;
+			filter:none;
+			background: url('icon/pause.png') no-repeat center center;background-size: 30%;
+		}
+		.control > .next-song > span{
+			background: url('icon/next.png') no-repeat center center;background-size: 50%;
+
+		}
+		.control > .choose-mode-song > span{}
+		.control > .down-song > span{}
+		input[type=range] {
+		    -webkit-appearance: none;
+		    width: 70vw;
+		    border-radius: 10px; /*这个属性设置使填充进度条时的图形为圆角*/		
+		}
+		.volumes{
+			
+			background-size: 0% 100%;
+			background:linear-gradient(to right, #059CFA, white  45%, white);	
+		}
+		.play{
+			background:linear-gradient(to right, #059CFA, white  0%, white);	
+		}
+		input[type=range]::-webkit-slider-thumb {
+		    -webkit-appearance: none;
+		}    
+		input[type=range]::-webkit-slider-runnable-track {
+		    height: 5px;
+		    border-radius: 10px; /*将轨道设为圆角的*/
+		    /*box-shadow: 0 1px 1px #def3f8, inset 0 .125em .125em #0d1112;*/ /*轨道内置阴影效果*/
+		    /*background-color: red;*/
+		    /*border:1px solid #ccc;*/
+		}
+		input[type=range]:focus {
+		    outline: none;
+		}
+		input[type=range]::-webkit-slider-thumb {
+		    -webkit-appearance: none;
+		    height: 3vh;
+		    width: 3vh;
+		    margin-top: -1vh; /*使滑块超出轨道部分的偏移量相等*/
+		    background: white; 
+		    border-radius: 50%; /*外观设置为圆形*/
+		    border: solid 0.125em rgba(205, 224, 230, 0.5); /*设置边框*/
+		    box-shadow: 0 .125em .125em #3b4547; /*添加底部阴影*/
+		}
+	</style>
+	<div data-role="page" id="musicplayer">
+		<div data-role="header" data-position="fixed" data-tap-toggle="false" id="tuijianheader"data-transition="slide">	
+				<h1>Now:演员</h1>
+		</div>
+		<div role="main" class="ui-content" data-role="none">
+			<div class="maintest">
+				<div class="container">
+					 <audio src="./yy.mp3" id="song" preload="auto" autoplay="autoplay"></audio> 
+					 <img src="./image/test.jpg" alt=""> 
+					<div class="range">
+						<input type="range" class="play" data-role="none" value="0" id="playtiao">
+					</div>
+					<div class="message">
+						<h2 style="text-shadow: none;">演员</h2>
+						<h4 style="text-shadow: none;"><small>code by :kang</small></h4>
+					</div>
+					<div class="space">
+					</div>
+					<div class="control">
+						<div class="down-song"><span></span></div>
+						<!--<div class="prev-song"><span></span></div>-->
+						<div class="stop-song"></div>
+						<!--<div class="next-song"><span></span></div>-->
+						<div class="choose-mode-song"><span></span></div>
+					</div>
+					<div class="range" id="volume">
+						<input type="range" min="0" max="100" value="20" class="volumes" data-role="none" id="volumetiao"> 
+					</div>
+				</div>
+			</div>
+		</div>
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+		    <div data-role="navbar" data-iconpos="left">
+		      <ul>
+		        <li><a href="#index" data-icon="home"  data-ajax="false">主页</a></li>
+		        <li><a href="#tuijian" data-icon="grid" >推荐</a></li>
+		        <li><a href="#musicplayer" data-icon="star">音乐</a></li>
+		      </ul>
+		    </div>			
+		</div>
+	</div>
+<script>
+$(document).ready(function(){
+	$.fn.RangeSlider = function(cfg){
+	    this.sliderCfg = {
+	        min: cfg && !isNaN(parseFloat(cfg.min)) ? Number(cfg.min) : null, 
+	        max: cfg && !isNaN(parseFloat(cfg.max)) ? Number(cfg.max) : null,
+	        step: cfg && Number(cfg.step) ? cfg.step : 1,
+	        callback: cfg && cfg.callback ? cfg.callback : null
+	    };
+	
+	    var $input = $(this);
+	    var min = this.sliderCfg.min;
+	    var max = this.sliderCfg.max;
+	    var step = this.sliderCfg.step;
+	    var callback = this.sliderCfg.callback;
+	
+	    $input.attr('min', min)
+	        .attr('max', max)
+	        .attr('step', step);
+	
+	    $input.bind("change", function(e){
+	        $input.attr('value', this.value);
+	        $input.css( 'background', 'linear-gradient(to right, #059CFA, white ' + this.value + '%, white)' );
+	
+	        if ($.isFunction(callback)) {
+	            callback(this);
+	        }
+	    });
+	};
+}
+)
+$(function(){
+
+	function ChangeRange(callback){
+		$('.range > input').eq(0)[0].value = this.currentTime.toFixed(0);
+		$('.range > input').eq(0).css( 'background', 'linear-gradient(to right, #059CFA, white ' + ((this.currentTime/this.duration.toFixed(0))*100).toFixed(0) + '%, white)' );		
+	}
+    var now = function($input){
+        $('#song').unbind('timeupdate');
+        document.getElementById("song").currentTime=$input.value;
+	 	$('#song').bind('timeupdate',ChangeRange);
+    }
+    var volumeChange = function($input){
+    	$("#song")[0].volume=($input.value/100).toFixed(1);
+    }
+	
+	$('.range > input').eq(1).RangeSlider({ min: 0,   max:100,  step: 0.1,  callback: volumeChange});
+	$('#song').bind('timeupdate',function(){
+		$('.range > input').eq(0)[0].value = this.currentTime.toFixed(0);
+		$('.range > input').eq(0).css( 'background', 'linear-gradient(to right, #059CFA, white ' + ((this.currentTime/this.duration.toFixed(0))*100).toFixed(0) + '%, white)' );
+	})
+	$('body').eq(0).one('click tap swipeUp',function(){
+		$('.range > input').eq(0).RangeSlider({ min: 0,   max:$("#song")[0].duration,  step: 0.1,  callback: now});
+		$("#song")[0].play();
+		$('#song')[0].pause();
+		$('#song')[0].play();
+	})
+	$("#song").bind('canplaythrough',function(){
+		$('.range > input').eq(0).RangeSlider({ min: 0,   max:$("#song")[0].duration,  step: 0.1,  callback: now});
+		$("#song")[0].play();
+		$('#song')[0].pause();
+		$('#song')[0].play();
+	})
+
+	$('#song').bind('error',function(){
+	})
+	$('.stop-song').eq(0).on('click',function(){
+		if(!!$('#song')[0].paused){
+			$('#song')[0].play();
+			$('.stop-song').eq(0).css("background-image","url('icon/pause.png')");
+		}else{
+			$('#song')[0].pause();
+			$('.stop-song').eq(0).css("background-image","url('icon/player.png')");
+		}
+	})
+})
+</script>
+	</body>
+</html>
