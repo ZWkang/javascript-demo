@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+
+	var _c=  document.createElement('canvas').getContext('2d');
+	if(!!_c) alert('you are not support canvas');
+
+
+
+	</script>
+	<style>
+		
+	</style>
+</head>
+<body>
+	<canvas width="400" height="300">
+	</canvas>
+	<script>
+
+
+
+(function(){
+	document.addEventListener('touchmove', function(e) { 
+		e.preventDefault();
+		return false;
+	},false);
+
+
+	var canvas = document.querySelector('canvas')||null,
+	      ctx = canvas.getContext('2d')||null,
+	      _paint = false,
+	      touchTag = ("ontouchstart" in window);
+	 if(!canvas||!ctx) return;
+	canvas.style.backgroundImage = "url('good.png')";
+	canvas.style.backgroundRepeat="no-repeat";
+	canvas.style.backgroundSize=canvas.width+"px "+canvas.height+"px";
+
+	//一些初始化
+
+	var eventtask = [['mousedown','mouseup','mousemove'],['touchstart','touchend','touchmove']];
+	var eventactiontask = touchTag?eventtask[1]:eventtask[0];
+	//做一个小兼容
+
+	// window.eee = eventactiontask;
+	//方便调试
+	ctx.fillStyle='gray';
+	ctx.fillRect(0,0,canvas.width,canvas.height);
+	//初始化遮罩大小
+	//给一个灰度遮罩
+	
+	function down(e){
+			e.preventDefault();
+
+			var mouseX = touchTag?
+							e.changedTouches[0].pageX - this.offsetLeft:
+							e.pageX - this.offsetLeft;
+			var mouseY = touchTag?
+							e.changedTouches[0].pageY - canvas.offsetTop:
+							e.pageY - this.offsetTop;
+
+			_paint = true;
+			ctx.moveTo(mouseX,mouseY);
+	}
+	function up(e){
+			e.preventDefault();
+			_paint=false;
+			//console.log('up');
+			//up的时候通过计算图像的像素灰度 来进行判断它的具体百分比
+			var datas = ctx.getImageData(0,0,canvas.width,canvas.height),
+			        pixles = datas.data,
+			        transPixs = [];
+			    for (var i = 0, j = pixles.length; i < j; i += 4) {
+			        var a = pixles[i + 3];
+			        if (a < 128) {
+			            transPixs.push(i);
+			        }
+			    }
+			    console.log((transPixs.length / (pixles.length / 4) * 100).toFixed(2));
+
+
+	}
+	function move(e){
+			e.preventDefault();
+			//console.log('move');
+			var mouseX = touchTag?
+							e.changedTouches[0].pageX - this.offsetLeft:
+							e.pageX - this.offsetLeft;
+			var mouseY = touchTag?
+							e.changedTouches[0].pageY - canvas.offsetTop:
+							e.pageY - this.offsetTop;
+
+			if(_paint){
+				ctx.beginPath() 
+				ctx.arc(mouseX,mouseY, 15, 0, Math.PI * 2);                         
+				ctx.fill(); 
+			}
+	}
+	ctx.globalCompositeOperation = "destination-out";
+
+	//这里模式选择最为重要。这使得我们有了"擦除的效果"
+	canvas.addEventListener(eventactiontask[0],down,false);
+	canvas.addEventListener(eventactiontask[1],up,false);
+	canvas.addEventListener(eventactiontask[2],move,false)
+})();
+
+
+
+
+
+
+
+
+	</script>
+</body>
+</html>
