@@ -13,6 +13,7 @@
 			return false;
 		}
 	}
+	//得到儒略历的日子  也就是公历
 	function  CalculateJulianDay(year,month,day){
 		var days = 0;
 		if(month<=2){
@@ -26,7 +27,7 @@
 		var dd = day+0.5000115740;
 		return (365.25*(year+4716)+0.01)+(30.60001 * (month + 1))+dd+days-1524.5;
 	}
-	alert((CalculateJulianDay(2005,5,31)-CalculateJulianDay(1977,3,27)).toFixed(0));
+	alert((CalculateJulianDay(1999,1,1)-CalculateJulianDay(2017,1,1)).toFixed(0));
 	</script>
 </body>
 </html>

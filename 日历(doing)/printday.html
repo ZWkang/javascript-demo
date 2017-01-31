@@ -20,18 +20,28 @@
 		}
 		return montharr[month-1];
 	}
+
 	function zellerweek(year,month,day){
+		//蔡勒公式
+		//m是月份
 		var m = month;
+		//d是日
 		var d = day;
+
 		if(month<=2){
+			//要做修正  12月相当于上一年13 14月
 			year--;
 			m=month+12;
 		}
 		var y = year%100;
+		//年后两位数  对100求余数
 		var c = parseInt(year/100);
-		w = (y + parseInt(y/4) +  parseInt(c/4)  - 2* c +  parseInt(13 * (m + 1) / 5) + d - 1) % 7;
+		//世纪  年份前两位数
+
+		w = (y + parseInt(y/4,10) +  parseInt(c/4,10)  - 2* c +  parseInt(13 * (m + 1) / 5,10) + d - 1) % 7;
+		//
 		if(w<0){
-			w+=7;
+			w+=7;//做修正
 		}
 		return w;
 	}
