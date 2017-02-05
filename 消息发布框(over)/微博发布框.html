@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>微博发布框</title>
+	<style>
+		body{ font-size:12px;}
+		#div1{ width:400px; margin:20px auto;}
+		#div1 p{ float:right; margin:0;}
+		#div1 textarea{ width:400px; height:100px;}
+		#div1 a{ width:50px; height:30px; font-size:16px; line-height:30px; text-align:center; float:right; background:#00FF00; color:#FFFFFF;}
+		#div1 a.dis{ background:#CCCCCC; color:#666666;}
+	</style>
+	<script>
+		window.onload=function(){
+			
+			var oDiv = document.getElementById("div1");
+			var oP = oDiv.getElementsByTagName("p")[0];
+			var oT = oDiv.getElementsByTagName("textarea")[0];
+			var oA = oDiv.getElementsByTagName("a")[0];
+
+			var ie = !-[1,];
+			//判定浏览器版本  用于兼容
+			var bBtn = true;
+			var timer = null;
+			var iNum = 0;
+
+			oT.onfocus=function(){
+				if(bBtn){
+					//btn做控制使得上下两个  一个执行结束另外一个会执行
+					oP.innerHTML='打机肚子饿  放下鼠标立地成佛 你还可以输入<span> 140 </span>个字';
+					// 添加一个span做剩余字数的同级
+					bBtn = false;
+				}
+			};
+			oT.onblur = function(){
+				if(oT.value==''){
+					// 如果输入框没有内容的时候
+					oP.innerHTML ='《新浪微博社区》';
+					bBtn = true; 
+					//btn设置为true 来使得在输入框被focus时候会执行字数统计 
+				}
+			};
+			//兼容
+			//property原型
+				if(ie){
+					oT.onpropertychange = toChange;
+				}
+				else{
+					oT.oninput = toChange;
+				}
+			function toChange(){
+				var num = Math.ceil(getLength(oT.value)/2);
+				//得到字数长度并且取1/2的整数
+				var oSpan = oDiv.getElementsByTagName('span')[0];
+				//得到字数的地方
+				if(!oSpan){return}
+
+				if(num<=140){
+					oSpan.innerHTML = 140-num;
+					//如果小于140的话就显示出字数
+					oSpan.style.color='';
+				}else{
+					oSpan.innerHTML=num-140;
+					//如果大于的时候不但显示字数 还用红色声明  表名超出
+					oSpan.style.color='red';
+				}
+				if (oT.value==''||num>140) {
+					//为空或者超出时候
+					oA.className='dis';
+				}else{
+					oA.className='';
+				}
+				
+			}
+			function getLength(str){
+				return String(str).replace(/[^\x00-\xff]/g,'aa').length;
+				//然后长度  string
+			}
+			oA.onclick = function(){
+				// 点击的时候
+				if(this.className=='dis'){
+					//如果当前的classname是dis的时候
+					clearInterval(timer);
+					// 先清除一下定时器
+					timer = setInterval(function(){
+						//设置定时器
+						if(iNum==5){
+							//上面设置了oa的classname如果为空或者超出classname为dis
+							//
+							clearInterval(timer);
+							iNum=0;
+							//定时器跟inum都初始化一下
+						}
+						else{
+							iNum++;
+							//inum自增
+						}
+						if(iNum%2){
+							oT.style.background='red';
+
+						}else{
+							oT.style.background='';
+						}
+					},100);
+					//这个定时器的主要作用是用来  进行闪烁警告的
+					//只有闪3下红色
+				}else{
+					alert('发布成功!');
+				}
+			};
+		};
+	</script>
+
+
+
+</head>
+<body>
+	<div id="div1">
+		<p>《新浪微博社区》</p>
+		<textarea></textarea>
+		<a class="dis" href="javascript:;">发布</a>
+	</div>
+</body>
+</html>
