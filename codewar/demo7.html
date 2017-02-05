@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+function titleCase(title, minorWords) {
+  function trans(titles){
+    var c = [];
+    var len = titles.split(' ');
+    for(i in len){
+      if(i==1||i==0||i==len.length-1){
+        c.push(len[i][0].toUpperCase()+len[i].substring(1,len[i].length).toLowerCase())
+      }else{
+        c.push(len[i].toLowerCase())
+      }
+      
+    }
+    return c;
+  }
+  return trans(title).join(' ');
+  
+}
+alert(titleCase('the quick brown fox'));
+// console.log(d);
+	</script>
+</body>
+</html>
