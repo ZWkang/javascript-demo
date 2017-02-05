@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>index</title>
+	<style>
+	.container{
+		width: 400px;
+		height: 500px;
+		background-color: pink;
+		margin: 0 auto;
+		border-top-left-radius: 5%;
+		border-top-right-radius: 5%;
+	}
+	.rilitable{
+		width: 100%;
+		height: 100%;
+		text-align: center;
+		font-size: 25px;
+		font-weight: bold;
+	}
+	.head{
+
+		width: 100%;
+	}
+	.control{
+		height: 40px
+	}
+	.control > td:first-child,.control > td:last-child{
+		cursor: pointer;
+	}	
+	.weeklyday{
+		height: 40px;
+		font-size: 14px;
+	}
+	.weeklyday >td{
+		border-right: 2px solid #000;
+		border-bottom: 2px solid #000;
+	}
+	.weeklyday > td:last-child{
+		border-right: none;
+	}
+	.active{
+		background-color: blue;
+	}
+	tbody[class="t_body"] td{
+		cursor: pointer;
+	}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<table class="rilitable">
+			<thead class="head">
+				<tr class="control">
+					<td colspan="2"><</td>
+					<td colspan="3">1990/4</td>
+					<td colspan="2">></td>
+				</tr>
+				<tr class="weeklyday">
+					<td>星期日</td>
+					<td>星期一</td>
+					<td>星期二</td>
+					<td>星期三</td>
+					<td>星期四</td>
+					<td>星期五</td>
+					<td>星期六</td>
+				</tr>
+			</thead>
+			<tbody class="t_body">	
+				
+				
+			</tbody>
+		</table>
+		<div class="calc_container">
+			<h2><small>you choose</small> <span class="calc_day">1800/9/2</span></h2>
+			<h3><span>你要计算多少天后(负数为多少天前)</span><input type="text" id="enter_num"></h3>
+			<h2><small>Result : </small> <span class="Result_day">1800/9/2</span></h2>
+		</div>
+	</div>
+	<script>
+		(function(){
+			//_int方法是返回一个整数
+			// zellerweek返回对应的星期几传入年月日
+			// 对象内的year month defineProperty绑定 修改其中一个就改变视图。使得操作方法更加简便
+			// dayToJulian 公历日期转换儒略日
+			// julianToDay 儒略日转换公历日期
+			// Rightbtn leftbtn绑定了一些对应的左右按钮动作 ,在初始化的时候根据使用者传参来决定绑定的位置
+			// titlenode 选择对应显示title年月的地方
+			//根据传入的parentnode来显示日历组的位置
+			// controlbtn对传入的左右控制按钮进行事件绑定
+			// 还有一些功能实现。可以由这个扩展
+			//计算两个日子间的差的天数。计算某一天的星期
+			// 利用 dayToJulian julianToDay  zellerweek 基本都能完成
+			function calendar(){
+				this._version='1.0',
+				this._authod='kang',
+				this._daysarr =[],
+				this._year=1990,
+				this._month=1 ,
+				this._day = 1,
+				this._parentnode =null ,
+				this._titlenode=null,
+				this._titlecode = '',
+				this._MinMonth=1,
+				this._MaxMonth=12
+				this._Leftbtn = null,
+				this._Rightbtn = null
+			}
+			calendar.prototype.init=function(obj){
+				if(typeof obj !=='object') throw new ('yoo are error');
+				this._titlenode=obj.titlenode,
+				this._parentnode  = obj.ele||null,
+				this._year = obj.year||1990,
+				this._month=obj.month||1,
+				this._Leftbtn = obj.Leftbtn||null,
+				this._Rightbtn = obj.Rightbtn||null;
+		
+				var _cache = this.DrawTable(this._year,this._month);
+
+				this._parentnode.innerHTML = _cache;
+
+				this._titlenode.innerHTML = this._year+'/'+this._month;
+				this.controlbtn();
+			}
+			calendar.prototype.yearType=function(year){
+				if(year%4==0&&year%100!=0||year%400==0){return true;}
+				return false;
+			}
+			calendar.prototype.dayofMonth=function(year,month){
+				var montharr=[31,[28,29],31,30,31,30,31,31,30,31,30,31];
+				var type = this.yearType(year);
+				if(month==2&&type){
+					return montharr[1][1];
+				}else if (month==2){
+					return montharr[1][0];
+				}
+				return montharr[month-1];
+			}
+			calendar.prototype.leftbtn = function (e){
+				if(c._month<1)return;
+				if(c._month==1){
+					c._year-=1;
+					c._month=12;
+				}else{
+					c._month-=1;
+				}
+			}
+			calendar.prototype.Rightbtn=function(e){
+				if(c._month<1)return;
+				if(c._month==12){
+					c._year+=1;
+					c._month=1;
+				}else{
+					c._month+=1;
+				}
+			}
+			calendar.prototype.zellerweek=function(year,month,day){
+				//蔡勒公式
+				//m是月份
+				var m = month;
+				//d是日
+				var d = day;
+
+				if(month<=2){
+					//要做修正  12月相当于上一年13 14月
+					year--;
+					m=month+12;
+				}
+				var y = year%100;
+				//年后两位数  对100求余数
+				var c = Math.floor(year/100);
+				//世纪  年份前两位数
+				w = (y + Math.floor(y/4) +  Math.floor(c/4)  - 2* c +  Math.floor(13 * (m + 1) / 5) + d - 1) % 7;
+				//计算公式
+				if(w<0){
+					w+=7;//做修正
+				}
+				return w;
+			}
+			//计算星期的蔡勒公式
+
+			calendar.prototype._int=function(value){
+				return Math.floor(value);
+			}
+
+			calendar.prototype.julianToDay = function (jd){
+				var r = {};
+				var D=this._int(jd+0.5);
+				var F = jd+0.5-D,c;
+				if(D>=2299161){
+					c = this._int((D-1867216.25)/36524.25);
+					D +=1+c-this._int(c/4);
+				}
+				D+=1524;
+				r.Y = this._int((D-122.1)/365.25);
+				D-=this._int(365.25*r.Y); r.M=this._int(D/30.601);
+				D-=this._int(30.601*r.M); r.d = D;
+				if(r.M>13){
+					r.M-=13;
+					r.Y-=4715;
+				}else{
+					r.M -= 1;
+					r.Y -= 4716;
+				}
+				F*=24;
+				r.h=this._int(F);
+				F-=r.h;
+				F*60;r.m=this._int(F);
+				F-=r.m;
+				F*60;r.s=F;
+				// console.log(r);
+				return r;
+			}
+			//主要函数
+			calendar.prototype.dayToJulian=function (y,m,d){
+				var year = y,month=m,day=d+0.5;
+				//d+0.5是为了调整儒略日的在每天公历的中午12点
+
+				if(m<=2){
+					year-=1;
+					month = month+12;
+				}
+				if(true){
+					B = this._int(year/100);
+					B = 2-B + this._int(year/400);
+				}
+
+				var dd = day+0.0000115740;
+
+				var a = Math.floor(365.25 * (year + 4716) + 0.01)+Math.floor(30.60001*(month + 1))+dd+B-1524.5;
+				return a ;
+			}		
+
+
+			//setLeftRightbtn
+			calendar.prototype.controlbtn = function(){
+				var _cacheLeft = this._Leftbtn,_cacheRight = this._Rightbtn;
+				if(_cacheLeft instanceof Array){
+					_cacheLeft.forEach(function(value){
+						value.addEventListener('click',this.leftbtn,false);
+					});
+				}else{
+					_cacheLeft.addEventListener('click',this.leftbtn,false);
+				}
+				if(_cacheRight instanceof Array){
+					_cacheRight.forEach(function(value){
+						value.addEventListener('click',this.Rightbtn,false);
+					});
+				}else{
+					_cacheRight.addEventListener('click',this.Rightbtn,false);
+				}
+				_cacheLeft =_cacheRight = null;
+			}
+			calendar.prototype.DrawTable=function(year,month){
+				this._daysarr=[];
+				var _html = this._daysarr;
+				var _year = year,_month=month;
+				//确定位置
+				var beginweekday = this.zellerweek(_year,_month,1);
+				
+				var days = this.dayofMonth(_year,_month);
+				
+				for(var i =1;i<=days;i++){
+					_html.push('<td>'+i+'</td>');
+				}
+				for(var z = days;z<42;z++){
+					_html.push('<td></td>');
+				}
+				for(var y =0;y<beginweekday;y++){
+					_html.unshift('<td></td>')
+				}
+				// var _len = _html.length;
+				var htmls = '';
+				_html.forEach(function(value,index){
+					if(index%7==0){
+						htmls+='<tr>'+_html[index];
+					}else if(index%7==6){
+						htmls+=_html[index]+'</tr>';
+					}else{
+						htmls+=_html[index];
+					}
+
+				})
+				return htmls;
+			}
+			function ccc (obj){
+				var a = new calendar();
+				Object.defineProperty(a,'_year',{
+					// value:1990,
+					// writable:true,
+					set:function(year){
+						
+						_year=year;
+						var e;
+						if(typeof _month!=='undefined'){
+							e= a.DrawTable(_year,_month);
+							this._parentnode.innerHTML=e;
+							this._titlecode = _year+'/'+_month;
+							this._titlenode.innerHTML = this._titlecode;
+
+						}
+						e=null;
+					},
+					get:function(){
+						return _year;
+
+					}
+				});
+				Object.defineProperty(a,'_month',{
+					// value:1,
+					// writable:true,
+					set:function(month){
+						// var self = this;
+						if(month>this._MaxMonth){
+							_month=12;
+						}else if(month<this._MinMonth){
+							_month=1;
+						}else if(typeof month!=='number'){
+							return ;
+						}else{
+							_month=month;
+						}
+						var e ;
+						
+						
+						_titlecode = _year+'/'+_month;
+						if(typeof _year!=='undefined'){
+							e= a.DrawTable(_year,_month);
+							
+							this._parentnode.innerHTML=e;
+							// this._parentnode.innerHTML=e;
+							this._titlecode = _year+'/'+_month;
+							this._titlenode.innerHTML = this._titlecode;
+						}
+						e=null;
+
+					},
+					get:function(){
+						return _month;
+
+					}
+				});	
+				a.init(obj);
+
+				return a ;
+			}
+			window.c = new ccc({
+				ele:document.getElementsByClassName('t_body')[0],
+				titlenode:document.getElementsByClassName('control')[0].getElementsByTagName('td')[1],
+				year:2017,
+				Leftbtn :document.getElementsByClassName('control')[0].getElementsByTagName('td')[0],
+				Rightbtn:document.getElementsByClassName('control')[0].getElementsByTagName('td')[2],
+				month:3
+			});
+			/*
+				传入参数
+				this._titlenode=obj.titlenode,
+				this._parentnode  = obj.ele||null,
+				this._year = obj.year||1990,
+				this._month=obj.month||1,
+				this._Leftbtn = obj.Leftbtn||null,
+				this._Rightbtn = obj.Rightbtn||null;
+
+				标题节点
+				挂在日历显示节点
+				年份
+				月份
+				左右按钮组[可以传入数组]
+			*/
+
+
+
+
+
+			//下面的是一些运用日历对象里面原型方法
+			document.getElementsByClassName('t_body')[0].addEventListener('mousedown',function(e){
+				
+				if(e.target.nodeName=='TD'){
+					e.target.className='active';
+					var YearMonth  = document.getElementsByClassName('control')[0].getElementsByTagName('td')[1].innerHTML;
+					var _calc_day = document.getElementsByClassName('calc_day')[0];
+					if(e.target.innerHTML!==''){
+						_calc_day.innerHTML=c._titlenode.innerHTML+'/'+e.target.innerHTML;
+					}
+				}
+			},false);
+			document.getElementsByClassName('t_body')[0].addEventListener('mouseout',function(e){
+				if(e.target.nodeName=='TD'){
+					e.target.className='';
+				}
+			},false);
+			var _calc_day = document.getElementsByClassName('calc_day')[0],
+				_Result_day = document.getElementsByClassName('Result_day')[0],
+				_number = document.getElementById('enter_num');
+
+
+
+			_number.addEventListener('change',function(e){
+				if(!(parseInt(this.value,10)===parseInt(this.value,10))){alert('you enter error');return;}
+				var _cache_calc_day = _calc_day.innerHTML.split('/'),
+					_cache_Result_day ;
+				//公历转儒略日
+				var jd = c.dayToJulian(_cache_calc_day[0]-0,_cache_calc_day[1]-0,_cache_calc_day[2]-0);
+				//儒略日转日公历
+				var _day = c.julianToDay(jd+parseInt(this.value,10));
+				_arr= ['日','一','二','三','四','五','六'];
+				_Result_day.innerHTML=_day['Y']+'/'+
+								_day['M']+'/'+
+								_day['d']+'/星期'+
+								_arr[(c.zellerweek(_day['Y']-0,_day['M']-0,_day['d']-0)+6)%6];
+
+
+			},false);
+
+
+
+		})();
+
+	</script>
+</body>
+</html>
