@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>a simple fullpage</title>
+	<style>
+	html,body{
+		height: 100%;
+		margin: 0;padding: 0;
+		overflow: hidden;
+	}
+	.container{
+		height: 100%;
+		position: relative;
+		width: 100%;
+		transition: all ease 1s;
+	}
+	.container > div[class^='section']{
+		width:100%;
+		height: 100%;
+	}
+	.section1{
+		background-color: red;
+	}
+	.section2{
+		background-color: blue;
+	}
+	.section3{
+		background-color: green;
+	}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="section1"></div>	
+		<div class="section2"></div>
+		<div class="section3"></div>
+	</div>
+	<script src="index.js"></script>
+</body>
+</html>
