@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>index</title>
+	<style>
+	body{
+		width: 100%;
+		height: 960px;
+	}
+	#main{
+		overflow: hidden;
+	}
+	#mainul{
+		overflow: hidden;
+		list-style: none;
+	}
+	.test{
+		width: 500px;
+		height: 60px;
+		background-color: red;
+	}
+	#mainul h1{
+		font-size: 32px;
+	}
+	p{
+		font-size: 32px;
+	}
+	</style>
+</head>
+<body>
+	<div id="main" class="chance">
+		<ul id="mainul">
+
+			<li class="test">1</li>
+			<li class="test">2</li>
+			<li class="test">3</li>
+			<li class="test">4</li>
+			<li class="test">5</li>
+			<li class="test">6</li>
+			<li class="test">7</li>
+			<li class="test">8</li>
+			<li class="test">9</li>
+			<li class="test">0</li>
+		</ul>
+		<h1 class="aaa">hahahahah</h1>
+	</div>
+	<p>尝试点击常按列表元素看console</p>
+	<p>尝试常按h1元素内容看console</p>
+	<script src="./touch2.js"></script>
+	<script>
+	window.onload=function(){
+
+		window.touch = touch=_touch(document.querySelector('#main'));
+		// touch=_touch(document.querySelectorAll('.test')[0]);
+		// init 初始化
+		//on 绑定事件,命名,回调函数,受代理类名
+		// remove 事件,命名
+		// 初始化的时候未绑定事件  实际绑定事件在on触发
+		touch._on('longtap','longtap',function(e){
+			//
+			console.log(e)
+		},'aaa')._on('singletap','singletap',function(e){
+			//
+			console.log(e)
+		},'test')._on('longtap','longtap2',function(e){
+			console.log('longtap2')
+		});
+
+
+	}
+	</script>
+</body>
+</html>
