@@ -3,20 +3,51 @@
 <head>
 	<meta charset="UTF-8">
 	<title>index</title>
+
+	<style>
+		body{
+			width: 3000px;
+		}
+		img{
+			width:300px;
+			height: 200px;
+			margin-top: 100px;
+			margin-left: 100px;
+		}
+	</style>
+</head>
+<body>
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_1.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_2.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_3.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_4.png" alt="">
+	<div>
+		<div>
+			<div>
+				<div>
+					<div id="main"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_5.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_6.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_7.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_8.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_9.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_10.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_11.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_12.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_13.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_14.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_15.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_16.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_17.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_19.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_20.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_21.png" alt="">
 	<script>
-	window.onload=function(){
-			if(!Array.prototype.remove){
-				Array.prototype.remove = function(val) {
-					if(Object.prototype.toString.call(this)!=='[object Array]')return;
-					for(var i = this.length-1;i>=0;i--){
-						if(val === this[i]){
-							this.splice(i,1);
-						}
-					}
-					i=null;
-					return this;
-				};
-			}
+	(function(){
 			var lazyload = (function (){
 				var doc = document,
 					win = window
@@ -67,16 +98,16 @@
 					lookW = win.innerWidth||doc.documentElement.clientWidth||doc.body.clientWidth;
 					//滚动条距离
 					scrollT = win.pageYoffset ||doc.documentElement.scrollTop||doc.body.scrollTop;
-
-					for(var i = 0;i<_cache.length;i++){
+					var len = _cache.length;
+					for(var i = len-1;i>=0;i--){
 						value = _cache[i];
 						Left = getReleativeLeft(value);
 						Top = getReleativeTop(value);
 						
-						if(Left>0&&Top>0&&Left<lookW&&Top<lookH){
+						if(Left>=0&&Top>=0&&Left<lookW&&Top<lookH){
 							changesrc.call(value);
 							// console.log(this);
-							_cache.remove(value);
+							_cache.splice(i,1);
 						}
 					}
 					i=null;
@@ -87,55 +118,15 @@
 					_cuca:cuca
 				}
 			})()
-		window.lazyload = lazyload._init();
-		window.onresize=window.onscroll=function(){
-			lazyload._cuca();
-		}
+			window._lazyload = lazyload;
+		})()
+	window.onload=function(){
+		_lazyload._init();
+		_lazyload._cuca();
 	}
-
-
+	window.onresize=window.onscroll=function(){
+		_lazyload._cuca();
+	}
 	</script>
-	<style>
-		body{
-			width: 3000px;
-		}
-		img{
-			width:300px;
-			height: 200px;
-			margin-top: 100px;
-			margin-left: 100px;
-		}
-	</style>
-</head>
-<body>
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_1.png" alt="">
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_2.png" alt="">
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_3.png" alt="">
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_4.png" alt="">
-	<div>
-		<div>
-			<div>
-				<div>
-					<div id="main"></div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_5.png" alt="">
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_6.png" alt="">
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_7.png" alt="">
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_8.png" alt="">
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_9.png" alt="">
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_10.png" alt="">
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_11.png" alt="">
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_12.png" alt="">
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_13.png" alt="">
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_14.png" alt="">
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_15.png" alt="">
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_16.png" alt="">
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_17.png" alt="">
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_19.png" alt="">
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_20.png" alt="">
-	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_21.png" alt="">
 </body>
 </html>
