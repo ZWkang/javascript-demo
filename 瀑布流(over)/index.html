@@ -143,6 +143,48 @@
 
 
 	</div>
-	<script src="app.js"></script>
+<script src="app.js"></script>
+<script>
+	//传入参数
+	var imagedata  ={'container':'.container','box':'.box','width':180,'content':'.content',
+	'arr':[{'url':'1.jpg','height':180},{'url':'2.jpg','height':180},{'url':'3.jpg','height':180},{'url':'4.jpg','height':262},
+	{'url':'1.jpg','height':180},{'url':'2.jpg','height':180},{'url':'3.jpg','height':180},{'url':'4.jpg','height':262},
+	{'url':'1.jpg','height':180},{'url':'2.jpg','height':180},{'url':'3.jpg','height':180},{'url':'4.jpg','height':262},
+	{'url':'1.jpg','height':180},{'url':'2.jpg','height':180},{'url':'3.jpg','height':180},{'url':'4.jpg','height':262},
+	{'url':'1.jpg','height':180},{'url':'2.jpg','height':180},{'url':'3.jpg','height':180},{'url':'4.jpg','height':262},
+	{'url':'1.jpg','height':180},{'url':'2.jpg','height':180},{'url':'3.jpg','height':180},{'url':'4.jpg','height':262},
+	{'url':'1.jpg','height':180},{'url':'2.jpg','height':180},{'url':'3.jpg','height':180},{'url':'4.jpg','height':262},
+	{'url':'1.jpg','height':180},{'url':'2.jpg','height':180},{'url':'3.jpg','height':180},{'url':'4.jpg','height':262},
+	{'url':'1.jpg','height':180},{'url':'2.jpg','height':180},{'url':'3.jpg','height':180},{'url':'4.jpg','height':262}]};
+	//这个height代表了box容器盒子的高度在这里定义了
+	//.container
+	//	.box
+	//		.content
+	//			img
+
+	//init是lazyload的初始化
+	//cuca是lazyload的监听计算
+	window.onload=function(){
+		_imgloadtion(imagedata);
+		_lazyload._init();
+		_lazyload._cuca();
+	}
+
+	var re ;
+	//绑定再scroll内
+	window.onscroll=function(){
+		_lazyload._cuca();
+	}
+	//onresize触发重新布局计算
+	window.onresize = function(){	
+		clearTimeout(re)
+		re = setTimeout(function(){
+			_imgloadtion(imagedata);
+			_lazyload._init();
+			_lazyload._cuca();
+		},1000);
+	}
+
+</script>
 </body>
 </html>
