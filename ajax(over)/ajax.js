@@ -23,7 +23,7 @@ function ajax(type,url,data,async,cache=true){
 			
 			cache = null;
 			xhr.open(type,url,async);
-			xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			xhr.setRequestHeader("Content-type","application/json");
 			xhr.send();
 
 		}else if(type==='POST'){
@@ -31,7 +31,7 @@ function ajax(type,url,data,async,cache=true){
 				url += '&'+(new Date().getTime()+"=1");
 			}
 			xhr.open(type,url,async);
-			xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			xhr.setRequestHeader("Content-type","application/json");
 			xhr.send(JSON.stringify(data));
 		}else{
 			reject('error type')
