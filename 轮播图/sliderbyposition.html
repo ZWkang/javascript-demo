@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>slider</title>
+	<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	.slider{
+		box-sizing:border-box;
+		width: 100%;
+		height: 494px;
+		min-height: 100px;
+		position: absolute;
+		top: 100px;
+		overflow: hidden;
+	}
+	.slider-container{
+		position: relative;
+		width: 300%;
+		height: 100%;
+		right: 0%;
+		transition: right 1s ease-in;
+	}
+	.slider-container >li{
+		float: left;
+		width: 33%;
+		overflow: hidden;
+		text-align: center;
+		height: 100%;
+	}
+	.slider-container > li >img{
+		width: auto;
+		height: 100%;
+	}
+	.pics_pre{
+		width: 32px;
+		height: 32px;
+		position: absolute;
+		top: 45%;
+		left: 0;
+		border: 1px solid red;
+		cursor: pointer;
+	}
+	.pics_next{
+		width: 32px;
+		height: 32px;
+		position: absolute;
+		top: 45%;
+		right: 0;
+		border: 1px solid red;
+		cursor: pointer;
+	}
+	.pics_list{
+		width: 100%;
+		height: 8%;
+		position: absolute;
+		bottom: 0;
+		background: #8B8878;
+		opacity: 0.8;
+		cursor: pointer;
+		text-align: center;
+	}
+	.pics_list>li{
+		width: 10px;
+		height: 10px;
+		border-radius: 5px;
+		background-color: #fff;
+		cursor: pointer;
+		float: left;
+		margin: 5px;
+		left: 35%;
+		position: relative;
+		list-style: none;
+	}
+	.li-active{
+		background-color: black!important;
+	}
+	</style>
+</head>
+<body>
+	<div class="slider">
+		<ul class="slider-container">
+			<li><img src="1.jpg" alt=""></li>
+			<li><img src="2.jpg" alt=""></li>
+			<li><img src="3.jpg" alt=""></li>
+		</ul>
+		<span class="pics_pre"></span><span class="pics_next"></span>
+		<ul class="pics_list">
+			<li class="li-active"></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+	<script>
+	function getPro(){
+		return document.querySelectorAll.call(document,arguments[0])
+	}
+	function like_array_call(name,obj,tar){
+		return Array.prototype[name].call(obj,tar)
+	}
+	function like_array_apply(name,obj,arr){
+		return Array.prototype[name].apply(obj,arr);
+	}
+	function ChangeIndex(_index,el){
+		index = _index
+		el.style.right = _index+'00%';
+	}
+	function SetClass(el,classname){
+		return el.setAttribute('class',classname||'');
+	}
+
+	function fus (bool){
+		return function(fn){
+			if(bool){
+				fn.apply(this,like_array_apply('slice',arguments,[1,3]))
+			}else{
+				fn.apply(this,like_array_apply('slice',arguments,[3,5]))
+			}
+		}
+	}
+	function factory(fn,args){
+		SetClass(icon_list[index])
+		fn.apply(this,args)
+		SetClass(icon_list[index],'li-active')
+	}
+	var slider_container = getPro('.slider-container')[0],
+		imgs = getPro('.slider-container >li'),
+		pre_btn = getPro('.pics_pre')[0],
+		next_btn = getPro('.pics_next')[0],
+		icon_list = getPro('.pics_list >li'),
+		icon_sele = getPro('.pics_list')[0]
+		index = 0,
+		max_index = imgs.length-1;
+
+
+
+
+	pre_btn.addEventListener('click',function(e){
+		factory(fus(index==0),[ChangeIndex,max_index,slider_container,index-1,slider_container])
+	},false)
+	next_btn.addEventListener('click',function(e){
+		factory(fus(index==max_index),[ChangeIndex,0,slider_container,index+1,slider_container])
+	},false)
+
+	icon_sele.addEventListener('click',function(e){
+		var e = e||window.event;
+		if(e.target.tagName.toUpperCase()==='LI'){
+			factory(fus(true),[ChangeIndex,like_array_call('indexOf',icon_list,e.target||e.srcElement),slider_container])
+		} 
+	},false)
+
+
+
+
+	</script>
+</body>
+</html>
