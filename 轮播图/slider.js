@@ -5,13 +5,20 @@
 				this.id = id++;
 				var option = option||{}
 				var index = 0;
-				this.ContainerClass={}
-				this.autoPlay=false
-				this.autoinit = false
-				this.clickdelay = false
+				this.ContainerClassSelector = {} //
+				this.autoPlay = false //是否自动滚动
+				this.autoinit = false //是否自动初始化
+				this.clickdelay = false	//点击是否开启延迟
+				this.animate_duration = '1s' //动画变换时间
+				this.auto_width = true	//是手动输入每个元素块的大小(这种情况下通常可以用作按需加载)还是自动获取
+				this.slider_like = "CSS" //动画函数的效果 是incss or in javascript
+				this.MODE_SELECT = 1 //三种模式  简单滑动 透明度  无缝滑动
+
+
 				this.init=function(){
 					wrap(initPreBtn)(option["pics_pre"])&&
 				}
+				
 				function initContainer(){
 
 				}
@@ -36,6 +43,13 @@
 						fn.apply(this,args)
 					}	
 				}
+				this.mode = function(modes){
+					switch(modes){
+						case 'opacity':
+
+					}
+				}
+
 			}
 		})()
 		SliderFactory.prototype={
@@ -76,13 +90,13 @@
 				}
 			},
 			eventGet:function(e){
-				return e||window.event
+				return e||_win.event
 			},
 			getAll:function(selector){
-				return document.getSelectorAll(selector)
+				return _doc.getSelectorAll(selector)
 			},
 			getOne:function(selector){
-				return document.getSelector(selector)
+				return _doc.getSelector(selector)
 			}
 		}
 	})(document||{},window||{},void 0)
