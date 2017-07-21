@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>index</title>
+
+	<style>
+		body{
+			width: 3000px;
+		}
+		img{
+			width:300px;
+			height: 200px;
+			margin-top: 100px;
+			margin-left: 100px;
+		}
+	</style>
+    <script src="./kanglazyload.js"></script>
+</head>
+<body>
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_1.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_2.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_3.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_4.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_5.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_6.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_7.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_8.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_9.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_10.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_11.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_12.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_13.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_14.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_15.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_16.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_17.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_19.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_20.png" alt="">
+	<img data-src="https://ls-l.cn/wp-content/uploads/2016/11/this_21.png" alt="">
+    <script>
+        kanglazyload.init({
+            background: true,//选择是否使用data-background
+            backgroundTag: 'data-background',//设置提取的attribute Tag
+            imgSrc: true,//是否使用img src
+            imgTag: 'data-src',//设置提取的attribute Tag
+            parent: null,//是否在init一个固定范围的。没有默认为null
+            srcset: false,//是否启用srcset
+            srcsetTag: 'data-srcset',//设置提取的attribute Tag
+            delayTime: 250,//debounce设置延时时间
+            callback: function () { },//设置每一次每个图片load之后的回调
+            rendered: function () { },//rendered的回调可以获取对应的scroll event或者resize event
+            deleleData: true,//转换src之后是否删除标记
+            firstLoad: false//设置第一次是否自动render
+        })
+    
+    </script>
+</body>
+</html>
