@@ -7,7 +7,7 @@
 	.container{
 		width: 400px;
 		height: 500px;
-		background-color: pink;
+		background-color: rgba(62, 132, 149,0.5);
 		margin: 0 auto;
 		border-top-left-radius: 5%;
 		border-top-right-radius: 5%;
@@ -108,16 +108,14 @@
 				this._Rightbtn = null
 			}
 			calendar.prototype.init=function(obj){
-				if(typeof obj !=='object') throw new ('yoo are error');
+				if(typeof obj !=='object'&&Object.prototype.toString.call(obj)!=='[object Object]') throw new ('yoo are error');
 				this._titlenode=obj.titlenode,
 				this._parentnode  = obj.ele||null,
 				this._year = obj.year||1990,
 				this._month=obj.month||1,
 				this._Leftbtn = obj.Leftbtn||null,
 				this._Rightbtn = obj.Rightbtn||null;
-		
 				var _cache = this.DrawTable(this._year,this._month);
-
 				this._parentnode.innerHTML = _cache;
 
 				this._titlenode.innerHTML = this._year+'/'+this._month;
@@ -209,7 +207,6 @@
 				F*60;r.m=this._int(F);
 				F-=r.m;
 				F*60;r.s=F;
-				// console.log(r);
 				return r;
 			}
 			//主要函数
@@ -221,7 +218,7 @@
 					year-=1;
 					month = month+12;
 				}
-				if(true){
+				if(year >1582){
 					B = this._int(year/100);
 					B = 2-B + this._int(year/400);
 				}
@@ -348,10 +345,10 @@
 			window.c = new ccc({
 				ele:document.getElementsByClassName('t_body')[0],
 				titlenode:document.getElementsByClassName('control')[0].getElementsByTagName('td')[1],
-				year:2017,
+				year:new Date().getFullYear(),
 				Leftbtn :document.getElementsByClassName('control')[0].getElementsByTagName('td')[0],
 				Rightbtn:document.getElementsByClassName('control')[0].getElementsByTagName('td')[2],
-				month:3
+				month:new Date().getMonth()+1
 			});
 			/*
 				传入参数

@@ -12,7 +12,6 @@ var throttle = function(fn,delaytime){
 	}
 }
 var debounce = function(fn,delaytime){
-	console.log('123');
 	var tags ;
 	return function(){
 		var that = this,args = arguments;
