@@ -29,7 +29,7 @@
 	</style>
 </head>
 <body>
-	<div id="main" class="chance">
+	<div id="main" class="chance asdasd">
 		<ul id="mainul">
 
 			<li class="test">1</li>
@@ -46,28 +46,57 @@
 		<h1 class="aaa">hahahahah</h1>
 	</div>
 	<p>尝试点击常按列表元素看console</p>
+	<p>tey to click the list-item and open console see what happen</p>
 	<p>尝试常按h1元素内容看console</p>
-	<script src="./touch2.js"></script>
+	<p>try click h1 see the console.</p>
+	<script src="./index.js"></script>
 	<script>
 	window.onload=function(){
 
-		window.touch = touch=_touch(document.querySelector('#main'));
+		window.touch = touch=kangtouch(document.querySelector('#mainul'),false);
 		// touch=_touch(document.querySelectorAll('.test')[0]);
+
+		// init need two params 
+		// one dom Element
+		// two boolean  this boolean make you be choose stopPropagation
+		// init需要两个参数 一个是dom元素  一个是决定是否冒泡的布尔值
 		// init 初始化
-		//on 绑定事件,命名,回调函数,受代理类名
+		// _on 绑定事件类型,事件命名,回调函数,受代理类名
 		// remove 事件,命名
 		// 初始化的时候未绑定事件  实际绑定事件在on触发
 		touch._on('longtap','longtap',function(e){
 			//
-			console.log(e)
-		},'aaa')._on('singletap','singletap',function(e){
-			//
-			console.log(e)
+			console.log('longtap')
+			// e.event.stopPropagation();
+			//here doesn't work 
+			//beacusse mainul element and its children nodes don't have className `test`
+		},'asdasd')._on('singletap','singletap',function(e){
+			console.log('singletap')
+			// e.event.stopPropagation();
+			//u can use callback and you will get a event
 		},'test')._on('longtap','longtap2',function(e){
+			//no have proxy Class
+			// just emit event
 			console.log('longtap2')
+		})._on('doubletap','doubletap',function(e){
+			console.log('doubletap')
 		});
+		// here have four direction by your hand
+		// you can get the event object
+		touch._on('swipeleft','test',function(w){
+			console.log('swiperleft')
+		})._on('swiperight','test',function(w){
+			console.log('swiperight')
+		})._on('swipeup','test',function(w){
+			console.log('swipeup')
+		})._on('swipedown','test',function(w){
+			console.log('swipedown')
+		})
 
-
+		document.querySelector('#main').addEventListener('touchstart',function(e){
+			console.log('123123')
+		},false)
+		
 	}
 	</script>
 </body>
