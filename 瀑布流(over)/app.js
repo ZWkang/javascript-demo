@@ -104,7 +104,7 @@
 
 		if(!_option||!_width||!_box||!_container||!_arr){
 			throw new TypeError('参数错误');
-			return;
+			
 		}
 		//获取元素
 		var box = document.querySelectorAll(_box),
@@ -113,7 +113,6 @@
 
 		if(box.length ===0||container===0||boxwidth<=0){
 			throw new TypeError('参数错误');
-			return;
 		}
 		//获取参数
 		var lookW = container.offsetWidth||document.documentElement.clientWidth||document.body.clientWidth,
