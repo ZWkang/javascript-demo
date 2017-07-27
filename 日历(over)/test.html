@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	.ui-datepicker-wrapper{
+		width: 240px;
+		font-size: 16px;
+		color:#666;
+		box-shadow: 2px 2px 8px 2px rgba(128,128,128,0.5);
+
+	}
+	.ui-datepicker-wrapper .ui-datepicker-header{
+		padding: 0 20px;
+		height: 50px;
+		line-height: 50px;
+		text-align: center;
+		background-color: #f0f0f0;
+		border-bottom: 1px solid #ccc;
+		font-weight: bold;
+	}
+	.ui-datepicker-wrapper .ui-datepicker-header .ui-datepicker-btn{
+		font-family: serif;
+		font-size: 20px;
+		width: 20px;
+		height: 50px;
+		color:#1abc9c;
+		text-align: center;
+		cursor: pointer;
+		text-decoration: none;
+	}
+	.ui-datepicker-prev-btn{
+		float: left;
+	}
+	.ui-datepicker-next-btn{
+		float: right;
+	}
+	.ui-datepicker-body table{
+		width: 100%;
+		border-collapse: collapse;
+	}
+	.ui-datepicker-body table th,
+	.ui-datepicker-body table td{
+		height: 30px;
+		text-align: center;
+	}
+	.ui-datepicker-body table th{
+		font-size: 12px;
+		height: 40px;
+		line-height: 40px;
+	}
+	.ui-datepicker-body table td{
+		border: 1px solid #f0f0f0;
+		font-size: 10px;
+		width: 14%;
+		cursor: pointer;
+	}
+	.ui-datepicker-body table td:hover{
+		background-color: #f0f0f0;
+	}
+	</style>
+</head>
+<body>
+	<div class="ui-datepicker-wrapper">
+		<div class="ui-datepicker-header">
+			<a href="###" class ="ui-datepicker-btn ui-datepicker-prev-btn"><</a>
+			<a href="###" class = "ui-datepicker-btn ui-datepicker-next-btn">></a>
+			<span class="ui-datepicker-curr-month">2016-12</span>
+		</div>
+		<div class="ui-datepicker-body">
+			<table>
+				<thead>
+					<tr>
+						<th>日</th>
+						<th>一</th>
+						<th>二</th>
+						<th>三</th>
+						<th>四</th>
+						<th>五</th>
+						<th>六</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>22</td>
+						<td>23</td>
+						<td>24</td>
+						<td>25</td>
+						<td>26</td>
+						<td>27</td>
+						<td>28</td>
+					</tr>
+					<tr>
+						<td>29</td>
+						<td>30</td>
+						<td>1</td>
+						<td>2</td>
+						<td>3</td>
+						<td>4</td>
+						<td>5</td>
+					</tr>
+					<tr>
+						<td>6</td>
+						<td>7</td>
+						<td>8</td>
+						<td>9</td>
+						<td>10</td>
+						<td>11</td>
+						<td>12</td>
+					</tr>
+					<tr>
+						<td>13</td>
+						<td>14</td>
+						<td>15</td>
+						<td>16</td>
+						<td>17</td>
+						<td>18</td>
+						<td>19</td>
+					</tr>
+					<tr>
+						<td>20</td>
+						<td>21</td>
+						<td>22</td>
+						<td>23</td>
+						<td>24</td>
+						<td>25</td>
+						<td>26</td>
+					</tr>
+					<tr>
+						<td>27</td>
+						<td>28</td>
+						<td>29</td>
+						<td>30</td>
+						<td>1</td>
+						<td>2</td>
+						<td>3</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+	<script src="index.js"></script>
+	<script>
+			var a = kangInit({
+				eventHandler:{
+					left:[{'type':'click','ele':document.querySelector('.ui-datepicker-prev-btn'),'callback':function(e){
+						a.defaultLeftBtn()
+						a.makeJson()
+						document.querySelector('tbody').innerHTML = arrayToTable(a.nowJson)
+						document.querySelector('.ui-datepicker-curr-month').innerHTML = a.year+'/'+a.month
+					}}],
+					right:[{'type':'click','ele':document.querySelector('.ui-datepicker-next-btn'),'callback':function(e){
+						a.defaultRightBtn()
+						a.makeJson()
+						document.querySelector('tbody').innerHTML = arrayToTable(a.nowJson)
+						document.querySelector('.ui-datepicker-curr-month').innerHTML = a.year+'/'+a.month
+					}}],
+					public:[{'type':'click','ele':document.querySelector('thead'),'callback':function(e){
+
+					}}]
+				}
+			})
+			a.makeJson()
+			document.querySelector('.ui-datepicker-curr-month').innerHTML = a.year+'/'+a.month
+			document.querySelector('tbody').innerHTML = arrayToTable(a.nowJson)
+			function arrayToTable(arr){
+				var html = ''
+				var len = arr.length
+				var days = a.DayMonth(a.year,a.month);
+				var start = arr.indexOf(1);
+				var end = arr.reverse().indexOf(days);
+				arr.reverse()
+				console.log(end)
+				for(var i=0;i<len;i++){
+					// if(number)
+					if(i%7==0){
+						html+='<tr><td data-item="'+arr[i]+'">'+arr[i]+'</td>'
+					}else if(i%7==6){
+						html+='<td>'+arr[i]+'</td></tr>'
+					}else{
+						html+='<td>'+arr[i]+'</td>'
+					}
+				}
+				return html
+			}
+
+	</script>
+</body>
+</html>
