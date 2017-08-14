@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name = "viewport" content = "width = device-width, initial-scale = 1.0, maximum-scale = 1.0, user-scalable = 0" />
 	<title>index</title>
 	<style>
 	body{
@@ -61,41 +62,46 @@
 		// two boolean  this boolean make you be choose stopPropagation
 		// init需要两个参数 一个是dom元素  一个是决定是否冒泡的布尔值
 		// init 初始化
-		// _on 绑定事件类型,事件命名,回调函数,受代理类名
+		// on 绑定事件类型,事件命名,回调函数,受代理类名
 		// remove 事件,命名
 		// 初始化的时候未绑定事件  实际绑定事件在on触发
-		touch._on('longtap','longtap',function(e){
+		touch.on('longtap','longtap',function(e){
 			//
 			console.log('longtap')
 			// e.event.stopPropagation();
 			//here doesn't work 
 			//beacusse mainul element and its children nodes don't have className `test`
-		},'asdasd')._on('singletap','singletap',function(e){
+		},'asdasd').on('singletap','singletap',function(e){
 			console.log('singletap')
 			// e.event.stopPropagation();
 			//u can use callback and you will get a event
-		},'test')._on('longtap','longtap2',function(e){
+		},'test').on('longtap','longtap2',function(e){
 			//no have proxy Class
 			// just emit event
 			console.log('longtap2')
-		})._on('doubletap','doubletap',function(e){
+		}).on('doubletap','doubletap',function(e){
 			console.log('doubletap')
 		});
 		// here have four direction by your hand
 		// you can get the event object
-		touch._on('swipeleft','test',function(w){
+		touch.on('swipeleft','test',function(w){
+			console.log(w);
 			console.log('swiperleft')
-		})._on('swiperight','test',function(w){
+		}).on('swiperight','test',function(w){
 			console.log('swiperight')
-		})._on('swipeup','test',function(w){
+		}).on('swipeup','test',function(w){
 			console.log('swipeup')
-		})._on('swipedown','test',function(w){
+		}).on('swipedown','test',function(w){
 			console.log('swipedown')
+		}).on('swipingleft','test',function(w){
+			console.log('swipingleft')
+		}).on('swiping','test',function(w){
+			console.log(w)
 		})
 
-		document.querySelector('#main').addEventListener('touchstart',function(e){
-			console.log('123123')
-		},false)
+		// document.querySelector('#main').addEventListener('touchstart',function(e){
+		// 	console.log('123123')
+		// },false)
 		
 	}
 	</script>

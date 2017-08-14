@@ -14,7 +14,7 @@
   // 传递引用
   let win = window,
     doc = document
-    
+
   //对事件集筛选触发
   let emit = function (eventname, e) {
     // console.log(eventname)
@@ -29,7 +29,7 @@
       if (rest_events[i].parents === (void 0)) {
         event_pack(eventname, rest_events[i]['callback'], this._ele, e);
         rest_events.splice(i, 1);
-      } else if (rest_events && hasp.call(this,target, rest_events[i]['parents'])) {
+      } else if (rest_events && hasp.call(this, target, rest_events[i]['parents'])) {
         event_pack(eventname, rest_events[i]['callback'], this._ele, e);
         rest_events.splice(i, 1);
       }
@@ -38,11 +38,11 @@
     if (rest_events.length === 0) return
   }
   //用类名代理 判断。
-  function hasp(node=false, classname='') {
+  function hasp(node = false, classname = '') {
     if (!classname) return false
     var node = node || false
     while (node) {
-      if(node === this._ele.parentNode){
+      if (node === this._ele.parentNode) {
         return false;
       }
       if (node.classList.contains(classname)) {
@@ -57,6 +57,9 @@
     // 先判断垂直方向水平方向
     // 再判断上下左右
     return Math.abs(x1 - x2) >= Math.abs(y1 - y2) ? (x1 - x2 > 0 ? 'swipeleft' : 'swiperight') : (y1 - y2 > 0 ? 'swipeup' : 'swipedown')
+  }
+  function countpositioning(x1, x2, y1, y2) {
+    return Math.abs(x1 - x2) >= Math.abs(y1 - y2) ? (x1 - x2 > 0 ? 'swipingleft' : 'swipingright') : (y1 - y2 > 0 ? 'swipingup' : 'swipingdown')
   }
   //事件触发 对事件做二次打包
   let event_pack = function (name, fn, dom, e) {
@@ -76,7 +79,7 @@
   }
   //事件监听主要逻辑
   let eventListener = function (dom) {
-    
+
     let self = this;
 
     let x1, x2, y1, y2,
@@ -94,8 +97,8 @@
       clearTimeout(longtap);
     }
     function touchstart(e) {
-      var e = e||window.event
-      if(self.stopPropagation){
+      var e = e || window.event
+      if (self.stopPropagation) {
         e.stopPropagation();
       }
       eventmark = e || win.event;
@@ -115,38 +118,52 @@
 
     }
     function touchmove(e) {
-      
-      var e = e||window.event
-      if(self.stopPropagation){
+
+      var e = e || window.event
+      if (self.stopPropagation) {
         e.stopPropagation();
       }
 
-      eventmark = e 
-      if (!isActive) return;
+      eventmark = e
+
       x2 = e.touches[0].pageX;
       y2 = e.touches[0].pageY;
+
       if (Math.abs(x1 - x2) > 6 || Math.abs(y1 - y2) > 6) {
-        emit.call(self, countposition(x1, x2, y1, y2), eventmark);
+        actionfunc();
+        isActive = true
+        emit.call(self, 'swiping', eventmark);
+        emit.call(self, countpositioning(x1, x2, y1, y2), eventmark);
       } else {
+        if (!isActive) return;
         emit.call(self, 'singletap', e);
+        actionfunc()
       }
-      actionfunc()
 
     }
     function touchend(e) {
-      var e = e||window.event
-      if(self.stopPropagation){
+      var e = e || window.event
+      if (self.stopPropagation) {
         e.stopPropagation();
       }
-      if (!isActive) return
 
+      if (!isActive) {
+        return
+      }
       let now = new Date();
+
       if (now - endtime < 300) {
         //三个事件
+        // console.log(123213123)
         actionfunc();
         //断定此次事件为连续两次轻击事件
         emit.call(self, 'doubletap', eventmark);
-
+        // console.log('123')
+      } else if (y2 > 0 && x2 > 0 && (Math.abs(x1 - x2) > 100 || Math.abs(y1 - y2) > 100)) {
+        // console.log('2223')
+        // console.log(x1,x2,y1,y2)
+        emit.call(self, countposition(x1, x2, y1, y2), eventmark);
+        actionfunc()
       } else {
         touchDelay = setTimeout(function () {
           actionfunc();
@@ -173,8 +190,8 @@
   //touch主事件
   //内置对象_event存放触发的时间
   //ele对应初始化元素节点
-  var _touch = function (element,stopPropagation) {
-    if (!(this instanceof _touch)) return new _touch(element,stopPropagation);
+  var _touch = function (element, stopPropagation) {
+    if (!(this instanceof _touch)) return new _touch(element, stopPropagation);
     this._events = {};
     this._ele = element;
     this._id = 0;
@@ -182,7 +199,7 @@
     this.stopPropagation = !!stopPropagation;
   }
   //绑定事件。实际上是在压入事件集
-  _touch.prototype._on = function (eventname, callbackname, callback, parent) {
+  _touch.prototype.on = function (eventname, callbackname, callback, parent) {
     if (!(this instanceof _touch)) throw new Error('error use');
     if (!this._events[eventname]) {
       this._events[eventname] = [];
