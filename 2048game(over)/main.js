@@ -12,7 +12,9 @@
 			this._parent_ele=null;
 		}
 		game.prototype.init=function(obj){
-			if(typeof obj !='object'||obj instanceof Array){throw new('type error');return;}
+			if(typeof obj !='object'||obj instanceof Array){
+				throw new TypeError('type error');
+			}
 			this._parent_ele=obj.parentChile;
 			this.arr = obj._arr;
 			this.printList();
@@ -57,7 +59,6 @@
 						}
 					}
 					return false;
-					break;
 				case 'right':
 					for(var row=0;row<4;row++){
 						for(var col=2;col>=0;col--){
@@ -69,7 +70,6 @@
 						}
 					}
 					return false;
-					break;
 				case 'up':
 					for(var row=1;row<4;row++){
 						for(var col=0;col<4;col++){
@@ -81,7 +81,6 @@
 						}
 					}
 					return false;
-					break;
 				case 'down':
 					for(var row=0;row<3;row++){
 						for(var col=0;col<4;col++){
@@ -93,7 +92,6 @@
 						}
 					}
 					return false;
-					break;
 
 			}
 		};
@@ -107,7 +105,6 @@
 						}
 					}
 					return this;
-					break;
 				case 'right':
 					if(this.cango(flag)){
 						for(var row=0;row<4;row++){
@@ -115,7 +112,6 @@
 						}
 					}
 					return this;
-					break;
 				case 'up':
 					if(this.cango(flag)){
 						for(var col=0;col<4;col++){
@@ -123,7 +119,6 @@
 						}
 					}
 					return this;
-					break;
 				case 'down':
 					if(this.cango(flag)){
 						for(var col=0;col<4;col++){
@@ -132,7 +127,6 @@
 						}
 					}
 					return this;
-					break;
 
 			}
 
@@ -228,7 +222,6 @@
 						}
 					}
 					return -1;
-					break;
 				case 'right':
 					for(var i =col-1;i>=0;i--){
 						if(this.arr[row][i]!=0){
@@ -236,7 +229,6 @@
 						}
 					}
 					return -1;
-					break;
 				case 'up':
 					for(var i=row+1;i<4;i++){
 						if(this.arr[i][col]!=0){
@@ -244,7 +236,6 @@
 						}
 					}
 					return -1;
-					break;
 				case 'down':
 					for(var i=row-1;i>=0;i--){
 						if(this.arr[i][col]!=0){
@@ -252,7 +243,6 @@
 						}	
 					}		
 					return -1;	
-					break;
 			}
 		};
 		game.prototype.printList=function(){
