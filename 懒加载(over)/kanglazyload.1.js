@@ -48,7 +48,7 @@
 	};
 
 	/*lazyload对象 cache对象存储所有应操作的对象*/
-	var lazyload = {
+	let lazyload = {
 		cache: []
 	};
 	//原生方法获取绝对left值
