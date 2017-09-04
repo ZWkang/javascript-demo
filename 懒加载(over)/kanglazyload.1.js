@@ -28,6 +28,7 @@
 		foreach = Array.prototype.forEach,
 		object = {},
 		debounceFun,
+		isFunction = (obj)=>{return Object.prototype.toString.call(obj) === '[object function]'},
 		flag;
 	//默认配置
 	let Settings = {
@@ -89,11 +90,34 @@
 		foreach.call(nodes, (val) => {
 			this.cache.push(val);
 		})
+
+		
+		if(window.IntersectionObserver){
+			let observer = void 666;
+			observer = new IntersectionObserver(
+				entries =>{
+					entries.forEach((v)=>{
+						if(v.isIntersecting){
+							srcChange(v.target);
+							Settings.callback(v.target,'loaded',v);
+							observer.unobserve(v.target);
+
+							this.cache = this.cache.filter((value)=>{
+								return value!==v.target
+							})
+						}
+					})		
+				}
+			)
+			this.cache.forEach((v)=>{
+				observer.observe(v);
+			})
+			return this;
+		}
 		if(!!Settings.firstLoad){
 			lazyload.render();
 			Settings.rendered(view);
 		}
-
 		debounceFun = debounce(Settings.rendered, Settings.delayTime);
 
 		if (document.addEventListener) {
@@ -107,7 +131,9 @@
 		}
 	}
 	//render判断是否在视口内。做替换url src之类的操作
+
 	lazyload.render = function (context) {
+
 		view = {
 			Left: 0,
 			Top: 0,
@@ -118,32 +144,34 @@
 		};
 		if (this.cache.length <= 0) { return; }
 		let len = this.cache.length;
+		
+		let that = this;
 		//两种方式 做兼容性处理
 		if (!supportBCR) {
-			for (var i = len - 1; i >= 0; i--) {
-				let value = this.cache[i];
+			this.cache = this.cache.filter((value)=>{
 				if (isHtml(value)&& !isHidden(value)) {
 					if (inViewWay2(value)) {
 						srcChange(value);
-						this.cache.splice(i, 1);
-						Settings.callbackcallback(value, 'loaded');
+						Settings.callback(value, 'loaded');
+						return false;
 					}
 				}
-			}
+			})
 		} else {
-			for (var i = len - 1; i >= 0; i--) {
-				let value = this.cache[i];
+			this.cache = this.cache.filter((value)=>{
 				if (isHtml(value) && !isHidden(value)) {
 					if (inViewWay1(value)) {
 						srcChange(value);
-						this.cache.splice(i, 1);
 						Settings.callback(value, 'loaded');
+						return false;
 					}
 				}
-			}
+			})
 		}
-
 		if (!this.cache.length) {
+			if(observer!==void 666){
+				observer.disconnect();
+			}
 			lazyload.detach();
 		}
 	}
@@ -192,16 +220,40 @@
 		let Top = lazyload.getPositionTop(dom);
 		return Left >= 0 && Top >= 0 && Left < view['lookWidth'] && Top < view['lookHeight'];
 	}
+	//第三种使用IntersectionObserver api
+
 	//替换url
 	function srcChange(domElement) {
 		if (supporSrcset&&Settings.srcset && domElement.getAttribute(Settings.sersetTag)) {
 			domElement.setAttribute('serset', domElement.getAttribute(Settings.sersetTag));
 		} else if (Settings.background && domElement.getAttribute(Settings.backgroundTag)) {
-			domElement.style.backgroundImage = 'url(' + domElement.getAttribute(Settings.backgroundTag) + ')';
-			// domElement.onerror = function(e){console.log('backhasdjaksdjskd')}
+			let srcLocation = domElement.getAttribute(Settings.backgroundTag);
+			// domElement.style.backgroundImage = 'url(' + domElement.getAttribute(Settings.backgroundTag) + ')';
+			// domElement.onerror = function(e){
+				// domElement.style.backgroundImage = 'url(' + Settings.error_picture + ')';
+				// Settings.callback(e,'error');
+			// }
+			onerror = (domElement)=>{
+				domElement.style.backgroundImage = 'url(' + Settings.error_picture + ')';
+				Settings.callback(e,'error');
+			}
+			onloading = (domElement)=>{
+				domElement.style.backgroundImage = 'url(' + Settings.loading_picture + ')';
+			}
+			proxyImgChange(domElement,srcLocation,onloading,onerror)
+
 		} else {
-			domElement.src = domElement.getAttribute(Settings.imgTag);
-			// domElement.onerror = function(e){console.log('123')}
+			// domElement.src = domElement.getAttribute(Settings.imgTag);
+			let srcLocation = domElement.getAttribute(Settings.imgTag);
+			onerror = (domElement)=>{
+				domElement.style.backgroundImage = 'url(' + Settings.error_picture + ')';
+				Settings.callback(e,'error');
+			}
+			onloading = (domElement)=>{
+				domElement.style.backgroundImage = 'url(' + Settings.loading_picture + ')';
+			}
+			proxyImgChange(domElement,srcLocation,onloading,onerror)
+
 		}
 		if(!!Settings.deleleData){
 			domElement.removeAttribute(Settings.sersetTag);
@@ -209,6 +261,30 @@
 			domElement.removeAttribute(Settings.imgTag);
 		}
 	}
+	
+	function proxyImgChange(elementObject , src , loading , error){
+		let img = new Image();
+		img.src = src;
+		if((elementObject instanceof Image) && (elementObject instanceof HTMLImageElement)){
+			// elementObject.src = Settings.loading_picture;
+			if(isFunction(loading)){
+				loading(elementObject);
+			}
+			img.onload = function(){
+				elementObject.src = src;
+			}
+			elementObject.onerror = function(){
+				if(isFunction(error)){
+					error(elementObject);
+				}
+			};
+			elementObject.src = src;
+		}
+	}
+
 	//导出接口
+	window.onerror = function(){
+		return;
+	}
 	return lazyload;
 });
