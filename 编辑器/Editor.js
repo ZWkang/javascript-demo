@@ -142,6 +142,7 @@
             execCommand:(tagName)=>exec('formatBlock',false,tagName)
         }
     }
+    const ActionListKeys = Object.keys(Action);
     function exec(...arg){
         document.execCommand(arg[0],arg[1],arg[2])
     }
@@ -178,8 +179,6 @@
             return objectToString.call(obj) === '[object '+ type +']';
         }
     }
-    const ObjectCheckType = checkType('object');
-    const ArrayCheckType = checkType('array');
     const testDiv = document.createElement('div');
 
     //检查css属性是否存在
@@ -212,33 +211,44 @@
     const iframeTemplate = document.createElement('iframe');
     const divTemplate = document.createElement('div');
     const ulTemplate = document.createElement('ul');
-
+    const liTemplate = document.createElement('li')
 
     class initActionConfig{
-        constructor(ActionList){
+        constructor(ActionList = {}){
             this.ActionList = ActionList;
+        }
+        get defaluActionList(){
+            return Action;
+        }
+        get defalutActionListKeys(){
+            return ActionListKeys;
+        }
+        initGetActionLists(configActionList){
+            let result = [];
+            for(let action of configActionList){
+                if(Utils.ArrayCheckType(action)){
+                    result.push(initGetActionLists(action))
+                }else{
+                    if(action in defalutActionListKeys){
+                        result.push(Action[action])
+                    }else{
+                        result.push({
+                            title:action,
+                            execCommand:()=>{
+                                Action['formatBlock'].execCommand(action);
+                            }
+                        })
+                    }
+                    
+                }
+            }
+            return result;
         }
     }
     class initStyleConfig{
-        constructor(){
+        constructor(ActionList){
+            this.ActionList = ActionList;
             this.iframeObject = iframeTemplate.cloneNode();
-        }
-        initIframeStyle(){
-
-        }
-        initContentStyle(){}
-        initTitleStyle(){}
-
-    }
-    // function generatorIframe(setting){
-    class generatorIframe{
-        get iframeObject(){
-
-            return iframeTemplate.cloneNode()
-        }
-        
-        constructor(iframeObject){
-            //默认style样式
             this.style = {
                 iframe:{
                     body:{
@@ -266,6 +276,97 @@
                     MinWidth:'20px'
                 }
             }
+        }
+        /**
+         * @param {HTML Element} iframe
+         * @param {Array} styleList 
+         * @return {HTML Element}
+         */
+        initIframeStyle(iframe = document.createElement('iframe'),styleList){
+            const contentStyle = iframe;
+            let iframeMount = this.iframeTemplate.cloneNode();
+            for(let i in contentStyle){
+                iframeMount.style[i] = contentStyle[i];
+            }
+            return contentDivTemplate;
+        }
+        /**
+         * @api public
+         * @param {Function} func 
+         * @param {HTML Element} target 
+         */
+        observerAfterIframeMount(func,target){
+            let observer = new MutationObserver(function(entries){
+                func()
+                observer.unobserbve(entries[0].target);
+            })
+            observer.observe(target);
+        }
+        /**
+         * @return {UL HTML ELEMENT}
+         */
+        get ulTemplate(){
+            return document.createElement('ul');
+        }
+        get liTemplate(){
+            return document.createElement('li');
+        }
+        get divTemplate(){
+            return document.createElement('div');
+        }
+        get iframeTemplate(){
+            return document.createElement('iframe');
+        }
+        initContentStyle(){
+            const contentStyle = this.style.content;
+            let contentDivTemplate = this.divTemplate.cloneNode();
+            for(let i in contentStyle){
+                contentDivTemplate.style[i] = contentStyle[i];
+            }
+            contentDivTemplate.setAttribute('contenteditable',true);
+            return contentDivTemplate;
+        }
+        generatorUlList(nums){
+            if(Utils.ArrayCheckType(nums)){
+                console.error(`error nums argument`);
+                return false;
+            }
+            let ulContainer = this.ulTemplate.cloneNode();
+            let liContainer = this.liTemplate.cloneNode();
+            let len = nums.length;
+            for (let i = 0;i < len;i++){
+                if(Utils.ArrayCheckType(nums[i])){
+                    ulContainer.appendChild(generatorUlList(nums[i]))
+                }else{
+                    // if(nums[i]['style']){}
+                    // if(nums[i]['className']){}
+                    liContainer.onclick = nums[i]['execCommand']||'';
+                    liContainer.innerText = nums['icon']||nums['title']||'';
+                    ulContainer.appendChild(liContainer)
+                }
+            }
+            return ulContainer;
+        }    
+        init(mountTarget){
+            
+        }   
+    }
+    class MainHandlerFunction{
+        constructor(config){
+            this.config = config;
+        }
+
+    }
+    // function generatorIframe(setting){
+    class generatorIframe{
+        get iframeObject(){
+
+            return iframeTemplate.cloneNode()
+        }
+        
+        constructor(iframeObject){
+            //默认style样式
+
             this.toolbarList = {
 
             }
@@ -297,24 +398,7 @@
             return Object.keys(this.defaultTitleItems);
         }
         
-        generatorUlList(nums,event,text){
-            if(Utils.ArrayCheckType(nums)){
-                console.error(`error nums argument`);
-                return false;
-            }
-            let ulContainer = ulTemplate.cloneNode();
-            let liContainer = document.createElement('li');
-            for (let i = 0;i < nums;i++){
-                liContainer.onclick = event||'';
-                liContainer.innerText = text;
-                if(Utils.ArrayCheckType(nums[i])){
-                    ulContainer.appendChild(generatorUlList(nums[i]))
-                }else{
-                    ulContainer.appendChild(liContainer.cloneNode())
-                }
-            }
-            return ulContainer;
-        }    
+
         initConfig(setting){
             if(Utils.ObjectCheckType[setting]&&Utils.isUndefined(setting['style'])){
                 console.error('setting throw a typeerror');
