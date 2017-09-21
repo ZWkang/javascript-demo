@@ -1,4 +1,10 @@
+const CONFIG = {
+	isAutoFixJs:true
+}
+
+
 //load function 
+
 function CreateLoad (url){
 	let scrContainer = document.createElement('script');
 	let head = document.querySelector('head');
@@ -6,26 +12,85 @@ function CreateLoad (url){
 	head.appendChild(scrContainer)
 
 }
-
+const helpis = (obj,param)=>{
+	return Object.prototype.toString.call(obj) === `[object ${param}]`;
+}
+const regexpList = []
+const NowPath = window.location.origin;
 //fix deps path
-function resolvePath(url){
-	let NowPath = window.location.origin
-	let obj = {
-		step:
+const pathname = window.location.pathname;
+const pathnameList = pathname.split('/').map((a,index,obj)=>{
+	// return a !== '' &&
+	if(index == obj.length-1){
+		return !(/'js|php|html|jsp|asp|css'/.test(a)) && a !== '';
 	}
-	if(url.test(/(http|https)/)){
+	return a !== '';
+})
+const isIndex = (pathname === '');
+function resolvePath(filename,url = NowPath){
+	// url = window.location.origin;
 
+	// let NowPath = window.location.origin;
+
+	if(url.test(/^[http|https]/)){
+		return url;
 	}
+	if(url.test(/^\.(?=\.)/) && isIndex){
+		throw new TypeError('path first must not a ..');
+	}
+	let pathList = pathname.split('/');
+	let nowpath = pathnameList.slice(0);
+	for(let i of pathList){
+		if(i === '..'){
+			if(nowpath.length ==0){
+				throw new TypeError('too much ..');
+			}
+			nowpath.length  = nowpath.length - 1 ;
+		}else if ( i === '.' ){
+		}else{
+			nowpath.push(i);
+		}
+	}
+	return nowpath.reduce((a,b)=>{
+		return a+'/'+b;
+	},NowPath+'/')
+}
 
+function pathToHash(string){
+	return string.split('').reduce((a,b)=>{
+		return a + b.toString().charCodeAt()
+	},'');
 }
 //
+
+const MODULES = {
+	NAME:'xx.js',
+	dependeni : [],
+	node
+}
+const CACHE_MODULES = {
+	'123123123123123':{}
+}
 
 //fix loop deps
 
 
+KLoader.defined = function(){
 
+}
+const getRequireRegExp = /=(\s+)require(\s*)(?=\(\s*['|"]([\w|\s|\.]+)['|"])/;
 
+KLoader.require = function(){
+	
+}
 
+KLoader.load = function(url){
+	let link = resolvePath(url);
+	let node = document.createElement('script');
+
+	// let supportOnload
+	node.src = 'test.js'
+}
 
 
 
