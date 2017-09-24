@@ -1,7 +1,20 @@
 const CONFIG = {
 	isAutoFixJs:true
 }
+const MODULE_NOT_FOUND = -1;
+const MODULE_LOADING = 3;
+const MODULE_DONE = 4;
 
+
+console.log = function(...arg){
+	console.log(`%c${arg}`,'color:back;font-weight:bold;')
+}
+console.error = function(...arg){
+	console.error(`%c${arg}`,`color:red;font-weight:bold;`)
+}
+console.info = function(...arg){
+	console.info(`%c${arg}`,`color:green;`)
+}
 
 //load function 
 
@@ -63,6 +76,9 @@ function pathToHash(string){
 }
 //
 
+/**
+ * 模块存放位置
+ */
 const MODULES = {
 	NAME:'xx.js',
 	dependeni : [],
@@ -71,25 +87,61 @@ const MODULES = {
 const CACHE_MODULES = {
 	'123123123123123':{}
 }
+const getRequireRegExp = /=(\s+)require(\s*)(?=\(\s*['|"]([\w|\s|\.]+)['|"])/;
 
+function fixdepList(){
+
+}
 //fix loop deps
 
 
-KLoader.defined = function(){
 
-}
-const getRequireRegExp = /=(\s+)require(\s*)(?=\(\s*['|"]([\w|\s|\.]+)['|"])/;
+KLoader.defined = function(moduleName,depsList,callback){
+	if(arguments.length ==1){
+		if(typeof moduleName == 'String'){
+			return {};
+		}
+	}
+	if(arguments.length ==2){
 
-KLoader.require = function(){
+	}
+
+	//fix CommondJS
 	
+}
+
+
+KLoader.require = function(name){
+	let path = resolvePath();
+	let pathHash = pathToHash(path);
+
+	if(CACHE_MODULES[pathHash]){
+		console.error(`the module doesn't load`);
+		return {};
+	}
+	
+	return CACHE_MODULES[pathHash];
 }
 
 KLoader.load = function(url){
 	let link = resolvePath(url);
 	let node = document.createElement('script');
+	let head = document.createElement('head')[0];
+
 
 	// let supportOnload
-	node.src = 'test.js'
+	node.charset = 'utf-8';
+	node.type = 'text/javascript';
+	node.onload = function(){
+
+	}
+	node.onerror = function(){
+
+	}
+	node.src = url;
+	// node.src = 'test.js'
+
+	head.appendChild(node);
 }
 
 
