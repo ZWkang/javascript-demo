@@ -146,14 +146,19 @@
     function exec(...arg){
         document.execCommand(arg[0],arg[1],arg[2])
     }
-    var testDiv = document.createElement("div");
+	var objectToString = Object.prototype.toString;
+    var fnToString = Function.prototype.toString;
+    const testDiv = document.createElement("div");
+    /**
+     * @api private
+     */
     function getSelectionHTML(){
 　　　　　if(window.getSelection){
 　　　　　　　selectionObj = window.getSelection();
 　　　　　　　selectedText = selectionObj.toString();
 　　　　　　　rangeObj = selectionObj.getRangeAt(0);
-　　　　　　　var docFragment = rangeObj.cloneContents();
-　　　　　　  var tempDiv = document.createElement("div");
+             let docFragment = rangeObj.cloneContents();
+             let tempDiv = document.createElement("div");
 　　　　　　　tempDiv.appendChild(docFragment);
 　　　　　　　selectedHtml = tempDiv.innerHTML;
 　　　　　}else if(document.selection){
@@ -164,14 +169,9 @@
 　　　　　}
     }
     let Editor = function(){}
-    Editor.prototype.init = function(){
+    Editor.prototype.init = function(){}
+    function EditorWrap(){}
 
-    }
-    function EditorWrap(){
-
-    }
-	var objectToString = Object.prototype.toString;
-    var fnToString = Function.prototype.toString;
 
     //检查类型
     const checkType = (type)=>{
@@ -483,7 +483,19 @@
             return true;
         }
     }
-    
+    /**
+     * 
+     * @param {*} mountElementObject 
+     * i think maybe need to create a bridge to connect top window.document with children iframe
+     * this function need to be public and common .
+     * so anytime i can use this function to connection my another dom element
+     */
+
+    function bridge(target,srcTarget){
+
+    }
+
+
     /*
      * 初始化操作
      */
