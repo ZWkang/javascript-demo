@@ -1,7 +1,8 @@
 const CONFIG = {
 	isAutoFixJs:true
 }
-const MODULE_NOT_FOUND = -1;
+const MODULE_NOT_FOUND = 1;
+// const MODULE_COMPLETA = 2;
 const MODULE_LOADING = 3;
 const MODULE_DONE = 4;
 
@@ -28,6 +29,7 @@ function CreateLoad (url){
 const helpis = (obj,param)=>{
 	return Object.prototype.toString.call(obj) === `[object ${param}]`;
 }
+
 const regexpList = []
 const NowPath = window.location.origin;
 //fix deps path
@@ -40,6 +42,7 @@ const pathnameList = pathname.split('/').map((a,index,obj)=>{
 	return a !== '';
 })
 const isIndex = (pathname === '');
+
 function resolvePath(filename,url = NowPath){
 	// url = window.location.origin;
 
@@ -87,19 +90,33 @@ const MODULES = {
 const CACHE_MODULES = {
 	'123123123123123':{}
 }
-const getRequireRegExp = /=(\s+)require(\s*)(?=\(\s*['|"]([\w|\s|\.]+)['|"])/;
+const getRequireRegExp = /=(\s+)require(\s*)(?=\(\s*['|"]([\w|\s|\.]+)['|"])/g;
 
 function fixdepList(){
 
 }
 //fix loop deps
-
-
+/**
+ * MODULE = {
+ * 	'xxxx':{
+ * 		path:'url',
+ * 		export:{}
+ * 	}	
+ * }
+ */
 
 KLoader.defined = function(moduleName,depsList,callback){
 	if(arguments.length ==1){
 		if(typeof moduleName == 'String'){
 			return {};
+		}
+		if(typeof moduleName == 'function'){
+			callback = moduleName ;
+			depsList = [];
+			moduleName = '';
+		}
+		if(typeof moduleName == 'object'){
+			
 		}
 	}
 	if(arguments.length ==2){
@@ -144,7 +161,9 @@ KLoader.load = function(url){
 	head.appendChild(node);
 }
 
+function fixDepDenpend(func){
 
+}
 
 
 
