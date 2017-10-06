@@ -146,8 +146,8 @@
     function exec(...arg){
         document.execCommand(arg[0],arg[1],arg[2])
     }
-	var objectToString = Object.prototype.toString;
-    var fnToString = Function.prototype.toString;
+	const objectToString = Object.prototype.toString;
+    const fnToString = Function.prototype.toString;
     const testDiv = document.createElement("div");
     /**
      * @api private
@@ -169,8 +169,6 @@
 　　　　　}
     }
     let Editor = function(){}
-    Editor.prototype.init = function(){}
-    function EditorWrap(){}
 
 
     //检查类型
@@ -218,12 +216,12 @@
             this.ActionList = ActionList;
         }
         get defaluActionList(){
-            return Action;
+            return this.ActionList;
         }
         get defalutActionListKeys(){
-            return ActionListKeys;
+            return Object.keys(this.ActionList);
         }
-        initGetActionLists(configActionList){
+        initGetActionLists(configActionList=[]){
             let result = [];
             for(let action of configActionList){
                 if(Utils.ArrayCheckType(action)){
@@ -246,45 +244,54 @@
         }
     }
     class initStyleConfig{
-        constructor(ActionList){
+        constructor(ActionList,styleObject = {}){
             this.ActionList = ActionList;
             this.iframeObject = iframeTemplate.cloneNode();
-            this.style = {
-                iframe:{
+            this.ulObject = ulTemplate.cloneNode();
+            this.style = Object.assign(styleObject,{
+                iframeContent : {
                     body:{
                         margin:'0',
                         padding:'0',
                         overflow:'hidden'
+                    },
+                    content:{
+                        MaxWidth:'100%',
+                        MinWidth:'100%',
+                        MaxHeight:'100%',
+                        MinHeight:'500px',
+                        FontSize:'16px'
+                    },
+                    title:{
+                        MaxWidth:'100%',
+                        MinWidth:'100%',
+                        MaxHeight:'20px',
+                        MinHeight:'20px',
+                        FontSize:'16px'
+                    },
+                    titleitem:{
+                        MaxWidth:'20px',
+                        MinWidth:'20px'
                     }
                 },
-                content:{
-                    MaxWidth:'100%',
-                    MinWidth:'100%',
-                    MaxHeight:'100%',
-                    MinHeight:'500px',
-                    FontSize:'16px'
-                },
-                title:{
-                    MaxWidth:'100%',
-                    MinWidth:'100%',
-                    MaxHeight:'20px',
-                    MinHeight:'20px',
-                    FontSize:'16px'
-                },
-                titleitem:{
-                    MaxWidth:'20px',
-                    MinWidth:'20px'
+                insideCssFileAndClassName:{
+                    css:['xxx.url'],
+                    classList:[{
+                        ul:['try'],
+                        li:['heihei'],
+                        content:['try']
+                    }]
                 }
-            }
+            })
         }
         /**
          * @param {HTML Element} iframe
          * @param {Array} styleList 
          * @return {HTML Element}
          */
-        initIframeStyle(iframe = document.createElement('iframe'),styleList){
+        initIframeStyle(iframe,styleList){
             const contentStyle = iframe;
-            let iframeMount = this.iframeTemplate.cloneNode();
+            // let iframeMount = this.iframeObject.cloneNode();
             for(let i in contentStyle){
                 iframeMount.style[i] = contentStyle[i];
             }
@@ -317,8 +324,8 @@
         get iframeTemplate(){
             return document.createElement('iframe');
         }
-        initContentStyle(){
-            const contentStyle = this.style.content;
+        initContentStyle(styleObject={}){
+            const contentStyle = styleObject;
             let contentDivTemplate = this.divTemplate.cloneNode();
             for(let i in contentStyle){
                 contentDivTemplate.style[i] = contentStyle[i];
@@ -326,20 +333,19 @@
             contentDivTemplate.setAttribute('contenteditable',true);
             return contentDivTemplate;
         }
-        generatorUlList(nums){
+        generatorUlList(nums,ulContainer = ulTemplate.cloneNode()){
             if(Utils.ArrayCheckType(nums)){
                 console.error(`error nums argument`);
                 return false;
             }
-            let ulContainer = this.ulTemplate.cloneNode();
+            // let ulContainer = this.ulTemplate.cloneNode();
+            const ulContainer = ulContainer;
             let liContainer = this.liTemplate.cloneNode();
             let len = nums.length;
             for (let i = 0;i < len;i++){
                 if(Utils.ArrayCheckType(nums[i])){
                     ulContainer.appendChild(generatorUlList(nums[i]))
                 }else{
-                    // if(nums[i]['style']){}
-                    // if(nums[i]['className']){}
                     liContainer.onclick = nums[i]['execCommand']||'';
                     liContainer.innerText = nums['icon']||nums['title']||'';
                     ulContainer.appendChild(liContainer)
@@ -351,12 +357,7 @@
             
         }   
     }
-    class MainHandlerFunction{
-        constructor(config){
-            this.config = config;
-        }
 
-    }
     // function generatorIframe(setting){
     class generatorIframe{
         get iframeObject(){
@@ -495,7 +496,9 @@
 
     }
 
-
+    function cssFile(target,obj){
+        target.appendChild()
+    }
     /*
      * 初始化操作
      */
