@@ -16,6 +16,11 @@
     doc = document
 
   //对事件集筛选触发
+  /**
+   * 
+   * @param {String} eventname 
+   * @param {Event} e 
+   */
   let emit = function (eventname, e) {
     // console.log(eventname)
     let events = this._events,
@@ -38,9 +43,13 @@
     if (rest_events.length === 0) return
   }
   //用类名代理 判断。
+  /**
+   * @param {Boolean} node 
+   * @param {String} classname 
+   * @return {Boolean}
+   */
   function hasp(node = false, classname = '') {
     if (!classname) return false
-    var node = node || false
     while (node) {
       if (node === this._ele.parentNode) {
         return false;
@@ -53,15 +62,39 @@
     return false
   }
   //计算方位返回时间类型
+  /**
+   * @api public
+   * @param {Number} x1 
+   * @param {Number} x2 
+   * @param {Number} y1 
+   * @param {Number} y2
+   * @return {String} 
+   */
   function countposition(x1, x2, y1, y2) {
     // 先判断垂直方向水平方向
     // 再判断上下左右
     return Math.abs(x1 - x2) >= Math.abs(y1 - y2) ? (x1 - x2 > 0 ? 'swipeleft' : 'swiperight') : (y1 - y2 > 0 ? 'swipeup' : 'swipedown')
   }
+  /**
+   * @api public
+   * @param {Number} x1 
+   * @param {Number} x2 
+   * @param {Number} y1 
+   * @param {Number} y2
+   * @return {String} 
+   */
   function countpositioning(x1, x2, y1, y2) {
     return Math.abs(x1 - x2) >= Math.abs(y1 - y2) ? (x1 - x2 > 0 ? 'swipingleft' : 'swipingright') : (y1 - y2 > 0 ? 'swipingup' : 'swipingdown')
   }
   //事件触发 对事件做二次打包
+  /**
+   * 
+   * @param {String} name 
+   * @param {Function} fn 
+   * @param {HTML Element} dom 
+   * @param {Event} e 
+   * @return {Boolean|undefined}
+   */
   let event_pack = function (name, fn, dom, e) {
     // e.stopPropagation();
     let new_event = {
@@ -78,6 +111,12 @@
     return call_res
   }
   //事件监听主要逻辑
+  /**
+   * @api public
+   * @param {HTML Element} dom 
+   * @return {Function}
+   * @description return value is a function to removeEventListener
+   */
   let eventListener = function (dom) {
 
     let self = this;
@@ -90,16 +129,23 @@
       eventmark = null,
       longtap,//用于长按
       tap//用于单击
-
+    /**
+     * @description clearTimeout and make isAction change flase
+     */
     function actionfunc() {
       isActive = false;
       clearTimeout(touchDelay);
       clearTimeout(longtap);
     }
+    /**
+     * @param {Event} e 
+     * @description add Event Listener
+     */
     function touchstart(e) {
       var e = e || window.event
       if (self.stopPropagation) {
         e.stopPropagation();
+        e.preventDefault();
       }
       eventmark = e || win.event;
       starttime = new Date();
@@ -117,11 +163,16 @@
       }, 500)
 
     }
+    /**
+     * @param {Event} e 
+     * @description add Event Listener
+     */
     function touchmove(e) {
 
       var e = e || window.event
       if (self.stopPropagation) {
         e.stopPropagation();
+        e.preventDefault();
       }
 
       eventmark = e
@@ -135,16 +186,24 @@
         emit.call(self, 'swiping', eventmark);
         emit.call(self, countpositioning(x1, x2, y1, y2), eventmark);
       } else {
-        if (!isActive) return;
+        if (!isActive){
+          return false;
+        }
+        // console.log('asdasdsa')
         emit.call(self, 'singletap', e);
         actionfunc()
       }
 
     }
+    /**
+     * @param {Event} e 
+     * @description add Event Listener
+     */
     function touchend(e) {
       var e = e || window.event
       if (self.stopPropagation) {
         e.stopPropagation();
+        e.preventDefault();
       }
 
       if (!isActive) {
@@ -159,7 +218,7 @@
         //断定此次事件为连续两次轻击事件
         emit.call(self, 'doubletap', eventmark);
         // console.log('123')
-      } else if (y2 > 0 && x2 > 0 && (Math.abs(x1 - x2) > 100 || Math.abs(y1 - y2) > 100)) {
+      } else if (y2 > 0 && x2 > 0 && (Math.abs(x1 - x2) > 10 || Math.abs(y1 - y2) > 10)) {
         // console.log('2223')
         // console.log(x1,x2,y1,y2)
         emit.call(self, countposition(x1, x2, y1, y2), eventmark);
@@ -190,7 +249,11 @@
   //touch主事件
   //内置对象_event存放触发的时间
   //ele对应初始化元素节点
-  var _touch = function (element, stopPropagation) {
+  /**
+   * @param {HTML Element} element 
+   * @param {Boolean} stopPropagation 
+   */
+  const _touch = function (element, stopPropagation=true) {
     if (!(this instanceof _touch)) return new _touch(element, stopPropagation);
     this._events = {};
     this._ele = element;
@@ -223,7 +286,7 @@
   _touch.prototype._remove = function (eventname, name) {
     if (!(this instanceof _touch)) throw new Error('error use');
 
-    var _events = this._events;
+    let _events = this._events;
 
     if (_events[eventname] === void 0 && (!name)) throw new Error('不存在这个事件')
     let len = _events[eventname]
