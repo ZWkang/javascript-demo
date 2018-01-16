@@ -90,10 +90,21 @@
     }
     calendar.prototype = {
         constructor: calendar,
+        /**
+         * @description 是不是闰月
+         * @param {Number|String} year
+         * @return {Boolean}
+         */
         YearType: function (year) {
             if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) { return true; }
             return false;
         },
+        /**
+         * @description 判断某个月份需要什么
+         * @param {Number|String} year
+         * @param {Number|String} month
+         * @return {Number}
+         */
         DayMonth: function (year, month) {
             if (month == 2 && this.YearType(year)) {
                 return StaticMonth[1][1];
@@ -102,6 +113,13 @@
             }
             return StaticMonth[month - 1]
         },
+        /**
+         * @description 蔡琴公式
+         * @param {Number|String} year
+         * @param {Number|String} month
+         * @param {Number|String} day
+         * @return {Number}
+         */
         zellerweek: function (year, month, day) {
             var m = month, d = day;;
             if (month <= 2) {
@@ -116,6 +134,11 @@
             }
             return w;
         },
+        /**
+         * @description 儒略历转化天数
+         * @param {Number|String} jd
+         * @return {Object}
+         */
         julianToDay: function (jd) {
             var r = {};
             var D = this._int(jd + 0.5);
@@ -143,6 +166,13 @@
             F * 60; r.s = F;
             return r;
         },
+        /**
+         * @description 年月日转儒略日
+         * @param {Number|String} y
+         * @param {Number|String} m
+         * @param {Number|String} d
+         * @return {Number}
+         */
         dayToJulian: function (y, m, d) {
             var year = y, month = m, day = d + 0.5;
             //d+0.5是为了调整儒略日的在每天公历的中午12点
@@ -161,6 +191,9 @@
             var a = Math.floor(365.25 * (year + 4716) + 0.01) + Math.floor(30.60001 * (month + 1)) + dd + B - 1524.5;
             return a;
         },
+        /**
+         * @description default left button action
+         */
         defaultLeftBtn: function () {
             if (this.month < 1) return;
             if (this.month == 1) {
@@ -170,6 +203,9 @@
                 this.month -= 1;
             }
         },
+        /**
+         * @description default right button action
+         */
         defaultRightBtn: function () {
             if (this.month < 1) return;
             if (this.month == 12) {
