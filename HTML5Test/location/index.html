@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .btn {
+            height: 80px;
+            width: 100px;
+            font-size: 32px;
+            padding: 4px;
+            background-color: aquamarine;
+            color: black;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <h1> Man i need your location plz give me</h1>
+    <button class="btn" onclick="getLocation()">Click</button>
+    <br />
+    Lat / Lon
+    <h2 id="locationContainer"> </h2>
+    Ip Address
+    <h2 id="ipContainer"></h2>
+    Reverse
+    <h2 id="exactContainer"></h2>
+    <script>
+        var locationUrl = 'https://ipinfo.io/json';
+        var locationContainer = document.getElementById('locationContainer');
+        var ipContainer = document.getElementById('ipContainer');
+        var exactContainer = document.getElementById('exactContainer');
+        var la = '';
+        var lo = '';
+        var lalo;
+        var longi
+        var lati
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(successFunction);
+        }
+        //Get latitude and longitude;
+        function successFunction(position) {
+            lati = position.coords.latitude;
+            longi = position.coords.longitude;
+
+            var reverse = `https://us1.locationiq.org/v1/reverse.php?key=9a8051364dc080&lat=${lati}&lon=${longi}&format=json`;
+
+            fetch(reverse) // Call the fetch function passing the url of the API as a parameter
+                .then((resp) => resp.json())
+                .then(function (resp) {
+                    exactContainer.innerHTML = resp.display_name;
+                })
+                .catch(function () {
+                    // This is where you run code if the server returns any errors
+                });
+        }
+
+
+        function getLocation() {
+            fetch(locationUrl) // Call the fetch function passing the url of the API as a parameter
+                .then((resp) => resp.json())
+                .then(function (resp) {
+                    //console.log(resp.city);
+                    ipContainer.innerHTML = resp.ip;
+                    locationContainer.innerHTML = resp.loc;
+                    lalo = resp.loc.split(',');
+                })
+                .catch(function () {
+                    // This is where you run code if the server returns any errors
+                });
+
+        }
+        // geolocation 
+        // 需要先请求是否允许。
+        // 然后getCurrentPosition会返回一个低精度的值。
+        // position.coords.latitude/position.coords
+
+        // navigator.geolocation.watchPosition(()=>{
+        //     dosomething////
+        // })
+        // 可以用这个来做监视器。
+        // watchPosition() 函数会返回一个 ID，唯一地标记该位置监视器。您可以将这个 ID 传给 clearWatch() 函数来停止监视用户位置。
+        // navigator.geolocation.clearWatch(watchID);
+
+        // 传参可以调整返回结果
+        // getCurrentPosition() 和 watchPosition() 都接受一个成功回调、一个可选的失败回调和一个可选的 PositionOptions 对象。
+
+    </script>
+</body>
+
+</html>
