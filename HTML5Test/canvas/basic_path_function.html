@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Basic Path Function</title>
+</head>
+<body>
+    <canvas id="container"></canvas>
+    <script>
+        let canvas = document.querySelector('#container')
+        let ctx = canvas.getContext('2d')
+        /**
+         * 首先 需要创建路径起始点
+         * 然后你使用画图命令去画出路径
+         * 之后你把路径封闭
+         * 一旦路径生成，可以听过描边或填充路径区域来渲染
+         */
+        // beginPath 新建一条路径
+        // closePath 闭合路径之后图形绘制命令又重新指向到上下文中
+        // stroke 使用线条来绘制轮廓
+        // fill 使用填充来生成图形
+
+        // 开始路径 => 描绘路径 => 关闭路径
+        // 三角形
+        ctx.beginPath()
+        ctx.moveTo(75,50)
+        ctx.lineTo(100,75)
+        ctx.lineTo(100,25)
+        ctx.fill()
+
+        
+    </script>
+</body>
+</html>

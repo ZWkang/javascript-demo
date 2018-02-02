@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>simple moveTo demo</title>
+</head>
+<body>
+    <canvas id="container"></canvas>
+    <script>
+        let canvas = document.querySelector('#container')
+        let ctx = canvas.getContext('2d')
+        ctx.beginPath()
+        ctx.arc(75 ,75 ,50 ,0 ,Math.PI*2 ,true) //绘制
+        ctx.moveTo(110,75);
+        ctx.arc(75,75,35,0,Math.PI,false);   // 口(顺时针)
+        ctx.moveTo(65,65);
+        ctx.arc(60,65,5,0,Math.PI*2,true);  // 左眼
+        ctx.moveTo(95,65);
+        ctx.arc(90,65,5,0,Math.PI*2,true);  // 右眼
+        ctx.stroke();
+        
+        // lineTo 是线
+
+
+        // arc(x, y, radius, startAngle, endAngle, anticlockwise)
+        // 画一个以（x,y）为圆心的以radius为半径的圆弧（圆），从startAngle开始到endAngle结束，按照anticlockwise给定的方向（默认为顺时针）来生成。
+        // arcTo(x1, y1, x2, y2, radius)
+        // 根据给定的控制点和半径画一段圆弧，再以直线连接两个控制点。
+    </script>
+</body>
+</html>

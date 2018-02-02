@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>base use</title>
+    <script src="./common/base_use.js"></script>
+</head>
+<body>
+    <canvas id="container"></canvas>
+    <script>
+        let canvas = document.querySelector('#container')
+        let ctx = canvas.getContext('2d')
+        ctx.fillRect(25,25,100,100)
+        ctx.clearRect(45,45,60,60)
+        ctx.strokeRect(50,50,50,50)
+    </script>
+</body>
+</html>
