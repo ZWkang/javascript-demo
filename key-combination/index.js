@@ -19,7 +19,7 @@
   /**
    * see in https://github.com/wesbos/keycodes
    */
-  const keyCodes = {
+  var keyCodes = {
     0: 'That key has no keycode',
     3: 'break',
     8: 'backspace / delete',
@@ -193,7 +193,7 @@
     251: "unlock trackpad (Chrome/Edge)",
     255: 'toggle touchpad',
   };
-  const keyCodesChangeKV = Object.entries(keyCodes).reduce((prev, next) => ({
+  var keyCodesChangeKV = Object.entries(keyCodes).reduce((prev, next) => ({
     ...prev,
     [next[1]]: next[0]
   }), {})
@@ -203,7 +203,7 @@
 		root.preKeyCombination = root.keyCombination;
 	}
 	// 存储全局变量减少引用查找
-  let doc = document,win = root,_body = document.body,_documentElement = doc.documentElement,option;
+  var doc = document,win = root,_body = document.body,_documentElement = doc.documentElement,option;
   
   // 组合键检测。当keydown命中事件集后，我们再对子集做判断执行
 
