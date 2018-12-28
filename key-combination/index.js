@@ -203,7 +203,7 @@
 		root.preKeyCombination = root.keyCombination;
 	}
 	// 存储全局变量减少引用查找
-  var doc = document,win = root,_body = document.body,_documentElement = doc.documentElement,option;
+  var win = root;
   
   // 组合键检测。当keydown命中事件集后，我们再对子集做判断执行
 
