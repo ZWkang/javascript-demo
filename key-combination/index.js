@@ -256,12 +256,11 @@
 
     // 绑定动作函数
     var bindEventAction = function bindEventAction (e) {
-      console.log(e)
-      const tempMapLength = _tempMap.length 
+      var tempMapLength = _tempMap.length 
       if (tempMapLength >= 0 && _tempMap[tempMapLength - 1] !== e.keyCode) {
         _tempMap.push(e.keyCode)
       } 
-      const eventList =  eventMap[_tempMap.toString()]
+      var eventList =  eventMap[_tempMap.toString()]
       eventList && eventList.forEach(v => {
         v && v()
       })
@@ -273,26 +272,26 @@
      * @param {function} callback 回调函数
      */
     var bindEvent = function binEvent(keyCode, callback) {
-      const keyCodeList = keyCode.split(' ')
-      const [first, second] = keyCodeList.map(v => keyCodesChangeKV[v])
-      const eventKeys = [first, second].toString()
+      var keyCodeList = keyCode.split(' ')
+      var [first, second] = keyCodeList.map(v => keyCodesChangeKV[v])
+      var eventKeys = [first, second].toString()
       eventMap[eventKeys] = eventMap[eventKeys] || []
       eventMap[eventKeys].push(callback)
     }.bind(this)
     
     // 移除绑定存储事件回调
     function removeListeners(keyCode, callback) {
-      const keyCode = keyCode.split(' ')
-      const [first, second] = keyCode.map(v => keyCodesChangeKV[v])
-      const eventKeys = [first, second].toString()
+      var keyCode = keyCode.split(' ')
+      var [first, second] = keyCode.map(v => keyCodesChangeKV[v])
+      var eventKeys = [first, second].toString()
       eventMap[eventKeys] && (eventMap = eventMap[eventKeys].filter(v => v === callback))
     }
     // 判断绑定对象
     
     // 解绑事件
     function detach (element) {
-        bindElement.removeEventListener('keydown', bindEventAction, false)
-        bindElement.removeEventListener('keyUp', removeEventAction, false)
+      bindElement.removeEventListener('keydown', bindEventAction, false)
+      bindElement.removeEventListener('keyUp', removeEventAction, false)
     }
 
     // 重新绑定事件
