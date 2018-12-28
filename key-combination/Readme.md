@@ -30,32 +30,35 @@ default Object
 
 #### 构造函数返回对象API
 
-bindEvent(keyCode, callback)
+##### bindEvent(keyCode, callback)
 
 > description: 添加回调函数进事件集
+
 > eg: bindEvent('ctrl 5', function () { // do some things})
 
 ---
 
-removeListeners(keyCode, callback)
+##### removeListeners(keyCode, callback)
 
 > description: 从事件集中删除
+
 > eg: removeListeners('ctrl 5', function () {})
 
 这里你需要注意，这个回调函数的引用应该与bindEvent一致。
 
 ---
 
-detach
+##### detach
 
 > 彻底解绑事件
+
 > eg: new keyCombination({}).detach()
 
 解绑事件
 
 ---
 
-init
+##### init
 
 > eg: new keyCombination({}).init()
 
@@ -63,7 +66,7 @@ init
 
 ---
 
-subscribeAction
+##### subscribeAction
 
 > eg: new keyCombination({}).subscribeAction()
 
