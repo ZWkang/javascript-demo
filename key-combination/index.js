@@ -250,12 +250,12 @@
 
 
     // 移除判断
-    const removeEventAction = function removeEventAction (e) {
+    const removeEventAction = (e) => {
       _tempMap = []
-    }.bind(this)
+    }
 
     // 绑定动作函数
-    const bindEventAction = function bindEventAction (e) {
+    const bindEventAction = (e) => {
       const tempMapLength = _tempMap.length 
       if (tempMapLength >= 0 && _tempMap[tempMapLength - 1] !== e.keyCode) {
         _tempMap.push(e.keyCode)
@@ -264,20 +264,20 @@
       eventList && eventList.forEach(v => {
         v && v(e)
       })
-    }.bind(this)
+    }
 
     // 绑定存储事件回调
     /**
      * @param {String} keyCode 绑定组合键
      * @param {function} callback 回调函数
      */
-    const bindEvent = function binEvent(keyCode, callback) {
+    const bindEvent = (keyCode, callback) => {
       const keyCodeList = keyCode.split(' ')
       const [first, second] = keyCodeList.map(v => keyCodesChangeKV[v])
       const eventKeys = [first, second].toString()
       eventMap[eventKeys] = eventMap[eventKeys] || []
       eventMap[eventKeys].push(callback)
-    }.bind(this)
+    }
     
     // 移除绑定存储事件回调
     function removeListeners(keyCode, callback) {
