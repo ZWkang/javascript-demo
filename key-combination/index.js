@@ -19,7 +19,7 @@
   /**
    * see in https://github.com/wesbos/keycodes
    */
-  var keyCodes = {
+  const keyCodes = {
     0: 'That key has no keycode',
     3: 'break',
     8: 'backspace / delete',
@@ -193,7 +193,7 @@
     251: "unlock trackpad (Chrome/Edge)",
     255: 'toggle touchpad',
   };
-  var keyCodesChangeKV = Object.entries(keyCodes).reduce((prev, next) => ({
+  const keyCodesChangeKV = Object.entries(keyCodes).reduce((prev, next) => ({
     ...prev,
     [next[1]]: next[0]
   }), {})
@@ -203,7 +203,7 @@
 		root.preKeyCombination = root.keyCombination;
 	}
 	// 存储全局变量减少引用查找
-  var win = root;
+  const win = root;
   
   // 组合键检测。当keydown命中事件集后，我们再对子集做判断执行
 
@@ -214,7 +214,7 @@
    *  '13,75': []
    * }
    */
-  var noop = function () {}
+  const noop = function () {}
 
   /**
    * @description 构造函数
@@ -222,7 +222,7 @@
    * @default {isElement: false, bindElement: {removeEventListener: noop}, element: null, _tempMap: []}
    */
   function keyCombination(options){
-    var isElement,
+    let isElement,
         element,
         _tempMap,
         bindElement
@@ -231,7 +231,7 @@
       return new keyCombination(arguments)
     }
 
-    var eventMap = {}
+    const eventMap = {}
 
 
     // 初始化函数
@@ -240,7 +240,7 @@
       isElement = options.element && options.element
       element = options.element || null
       _tempMap = []
-      bindElement = !isElement ? window : 
+      bindElement = !isElement ? win : 
                                   (element instanceof HTMLElement) ? element :
                                                                   {removeEventListener: noop}
     }
@@ -250,19 +250,19 @@
 
 
     // 移除判断
-    var removeEventAction = function removeEventAction (e) {
+    const removeEventAction = function removeEventAction (e) {
       _tempMap = []
     }.bind(this)
 
     // 绑定动作函数
-    var bindEventAction = function bindEventAction (e) {
-      var tempMapLength = _tempMap.length 
+    const bindEventAction = function bindEventAction (e) {
+      const tempMapLength = _tempMap.length 
       if (tempMapLength >= 0 && _tempMap[tempMapLength - 1] !== e.keyCode) {
         _tempMap.push(e.keyCode)
       } 
-      var eventList =  eventMap[_tempMap.toString()]
+      const eventList =  eventMap[_tempMap.toString()]
       eventList && eventList.forEach(v => {
-        v && v()
+        v && v(e)
       })
     }.bind(this)
 
@@ -271,19 +271,19 @@
      * @param {String} keyCode 绑定组合键
      * @param {function} callback 回调函数
      */
-    var bindEvent = function binEvent(keyCode, callback) {
-      var keyCodeList = keyCode.split(' ')
-      var [first, second] = keyCodeList.map(v => keyCodesChangeKV[v])
-      var eventKeys = [first, second].toString()
+    const bindEvent = function binEvent(keyCode, callback) {
+      const keyCodeList = keyCode.split(' ')
+      const [first, second] = keyCodeList.map(v => keyCodesChangeKV[v])
+      const eventKeys = [first, second].toString()
       eventMap[eventKeys] = eventMap[eventKeys] || []
       eventMap[eventKeys].push(callback)
     }.bind(this)
     
     // 移除绑定存储事件回调
     function removeListeners(keyCode, callback) {
-      var keyCode = keyCode.split(' ')
-      var [first, second] = keyCode.map(v => keyCodesChangeKV[v])
-      var eventKeys = [first, second].toString()
+      const keyCode = keyCode.split(' ')
+      const [first, second] = keyCode.map(v => keyCodesChangeKV[v])
+      const eventKeys = [first, second].toString()
       eventMap[eventKeys] && (eventMap = eventMap[eventKeys].filter(v => v === callback))
     }
     // 判断绑定对象
@@ -299,16 +299,16 @@
       bindElement.addEventListener('keydown', bindEventAction, false)
       bindElement.addEventListener('keyup', removeEventAction, false)
     }
-    
+
     subscribeAction()
 
     return {
-      bindEvent: bindEvent,
-      removeListeners: removeListeners,
-      detach: detach,
-      subscribeAction: subscribeAction,
-      init: init,
-      eventMap: eventMap
+      bindEvent,
+      removeListeners,
+      detach,
+      subscribeAction,
+      init,
+      eventMap
     }
   }
 	//导出接口
