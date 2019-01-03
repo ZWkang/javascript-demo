@@ -1,3 +1,8 @@
+/**
+ * @author ZWkang
+ * @Date 1/3/2019
+ */
+
 (function (root, factory) {
 	if (typeof define === 'function' && define.amd) {
 		define(function () {
