@@ -1,8 +1,16 @@
-// const pathToRegexp = require('path-to-regexp');
 const debug = require('debug')('kang-route');
-// const methods = require('methods');
-const compose = require('koa-compose')
+const compose = require('koa-compose');
 
+/**
+ * use
+ * 1. require('simple-server-router.js')
+ * 2. const routers = new Route({
+ *      muti: true| false // 是否重复匹配路由
+ * })
+ * 
+ * 3. routers.register(/test/, async (ctx, next) { ctx.body = {name: 'kang'}})
+ * 4. app.use(routers.createMiddlerware())
+ */
 const defaultOptions = {
     muti: false
 }

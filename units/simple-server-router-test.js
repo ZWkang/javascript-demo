@@ -1,4 +1,3 @@
-const 
 var Koa = require('koa')
   , http = require('http')
   , request = require('supertest')
