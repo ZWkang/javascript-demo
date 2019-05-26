@@ -258,7 +258,7 @@
         handleAlertTypeColorChoose(Item)(options.type)(options.colorMaps);
         Container.appendChild(Item);
         Item.addEventListener(
-            'mouseover',
+            'mouseenter',
             function(e) {
                 const target = e.target;
                 const instanceid = target.getAttribute('instanceid');
