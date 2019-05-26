@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        @keyframes enter {
+            from{
+                opacity: 0;
+                transform: scale(1.1);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes out {
+            from{
+                opacity: 1;
+    transform: scale(1);
+            }
+            to {
+                opacity: 0;
+    transform: scale(0);
+            }
+        }
+
+        .classEnter {
+            /* opacity: 0; */
+            animation: enter 1000ms ease-in;
+        }
+        .classOut {
+            animation: out 3000ms ease-in;
+        }
+        .AgamennonNotiContainer {
+            position: fixed;
+            right: 0;
+            top: 10px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            pointer-events: none;
+        }
+        .AgamennonNotiContainer .AgamennonNotiItem--Wrapper {
+            width: 20%;
+            background-color: rgb(233, 241, 255);
+            color: rgb(66, 132, 245);
+            opacity: 1;
+            z-index: 1020;
+            padding: 15px 40px 15px 50px;
+            border-color: rgb(180, 208, 255);
+            border-radius: 5px;
+            margin-bottom: 10px;
+            margin-right: 10px;
+            pointer-events: auto;
+            position:relative;
+        }
+        .AgamennonNotiContainer .AgamennonNotiItem--title {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+        .AgamennonNotiContainer .AgamennonNotiItem--message {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        .AgamennonNotiContainer .AgamennonNotiItem--close{
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            cursor: pointer;
+            right: 16px;
+        }
+    </style>
+    
+</head>
+<body>
+    <button id="addMessage">add message</button>
+    <div class="AgamennonNotiContainer"></div>
+    <script src="./index.js" defer></script>
+    <script>
+        window.onload = function () {
+            document.querySelector('#addMessage').addEventListener('click', () => {
+                show({
+                    message: 'tets',
+                    title: 'xx',
+                    duration: 3000,
+                    type: "warning"
+                })
+            }, false)
+        }
+    </script>
+</body>
+</html>
