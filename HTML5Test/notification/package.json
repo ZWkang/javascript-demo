@@ -76,7 +76,7 @@
     "koa-is-json": "^1.0.0",
     "koa-send": "^4.1.1",
     "koa-static": "^4.0.1",
-    "media-typer": "^0.3.0",
+    "media-typer": "^1.0.0",
     "mime-db": "^1.30.0",
     "mime-types": "^2.1.17",
     "ms": "^2.0.0",
