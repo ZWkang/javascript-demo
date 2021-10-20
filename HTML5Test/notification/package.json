@@ -98,7 +98,7 @@
     "fresh": "^0.5.2"
   },
   "devDependencies": {
-    "koa": "^2.3.0"
+    "koa": "2.13.4"
   },
   "scripts": {
     "start": "node index.js",
